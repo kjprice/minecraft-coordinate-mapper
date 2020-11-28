@@ -32,13 +32,14 @@ function calcDistances(positions1, positions2) {
     const diffsSquared = diffs.map(d => d * d);
     const sumSquaredDiffs = diffsSquared.reduce((v, d) => v + d, 0);;
     const totalDistance = Math.sqrt(sumSquaredDiffs);
-    console.log({totalDistance, diffs});
+    const steps = diffs.map(diff => diff / totalDistance)
+    console.log({totalDistance, diffs, steps});
 
     return diffs;
 }
 
-calcDistances(POSITIONS['LAVA Entrance'], POSITIONS['Cave deep'])
-calcDistances(POSITIONS['Massive cave chest'], POSITIONS['Cave deep'])
+calcDistances(POSITIONS['Cave deep'], POSITIONS['LAVA Entrance'])
+calcDistances(POSITIONS['Cave deep'], POSITIONS['Massive cave chest'])
 
 function setup() {
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT, WEBGL);
