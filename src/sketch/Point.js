@@ -11,6 +11,7 @@ export default class Point {
         this.name = name;
     }
 
+    // For p5.js
     draw() {
         push();
         const [x, y, z] = this.coordinates;

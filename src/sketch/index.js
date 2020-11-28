@@ -1,9 +1,7 @@
 /* eslint-disable no-undef */
-import Point from './Point';
+import Points from './Points';
 import * as Settings from '../modules/Settings';
 import POSITIONS from '../modules/Positions'; 
-
-let points = null;
 
 // TODO: Need a way to visualize points - maybe color certain items red (mountain home and lava entrence?)
 
@@ -27,12 +25,7 @@ calcDistances(POSITIONS['Cave deep'], POSITIONS['LAVA Entrance']);
 calcDistances(POSITIONS['Cave deep'], POSITIONS['Massive cave chest']);
 
 function createPoints() {
-    const names = Object.keys(POSITIONS);
-    points = names.map(name => {
-        const coordinates = POSITIONS[name];
-
-        return new Point(name, coordinates);
-    });
+    Points.init(POSITIONS);
 }
 
 let fontBlack;
@@ -62,7 +55,7 @@ function setup() {
 
 function drawPoints() {
     // Draw actual locations
-    points.forEach(point => point.draw());
+    Points.points.forEach(point => point.draw());
 }
 
 
