@@ -1,6 +1,7 @@
-import Point from './Point.js';
-import * as Settings from './Settings.js';
-import POSITIONS from './Positions.js'; 
+/* eslint-disable no-undef */
+import Point from './Point';
+import * as Settings from '../modules/Settings';
+import POSITIONS from '../modules/Positions'; 
 
 let points = null;
 let _text;

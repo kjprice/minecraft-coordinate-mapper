@@ -1,4 +1,5 @@
-import {middleX, middleY, middleZ, BOX_HEIGHT} from './Settings.js';
+/* eslint-disable no-undef */
+import {middleX, middleY, middleZ, BOX_HEIGHT} from '../modules/Settings';
 
 export default class Point {
     name = null;
