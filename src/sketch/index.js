@@ -4,7 +4,6 @@ import * as Settings from '../modules/Settings';
 import POSITIONS from '../modules/Positions'; 
 
 let points = null;
-let _text;
 
 // TODO: Need a way to visualize points - maybe color certain items red (mountain home and lava entrence?)
 
