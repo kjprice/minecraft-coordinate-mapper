@@ -1,4 +1,4 @@
-const POSITIONS = {
+const positionsByName = {
     'Mountain Home': [-30, 79, 91],
     'LAVA': [-50, 22, 38],
     'LAVA Entrance': [-87, 61, 28],
@@ -9,4 +9,4 @@ const POSITIONS = {
     'Cave deep': [29, 23, 15],
 }
 
-export default POSITIONS;
+export default positionsByName;

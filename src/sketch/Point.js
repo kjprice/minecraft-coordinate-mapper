@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import {middleX, middleY, middleZ, BOX_HEIGHT} from '../modules/Settings';
+import {middleX, middleY, middleZ, BOX_HEIGHT} from '../settings/sketch';
 
 export default class Point {
     name = null;
