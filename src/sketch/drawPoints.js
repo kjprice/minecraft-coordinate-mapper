@@ -2,13 +2,30 @@ import drawPoint from './drawPoint';
 
 import store from '../redux/store';
 
-export default function drawPoints() {
+function getPoints() {
     const state = store.getState();
-    if (!state.coordinates) {
+    const {
+        fromPointName,
+        toPointName,
+        points
+    } = state.coordinates;
+
+    if (!points) {
+        return null;;
+    }
+
+    return points.map(p => ({
+        ...p,
+        isStarting: p.name === fromPointName,
+        isEnding: p.name === toPointName
+    }));
+}
+
+export default function drawPoints() {
+    const points = getPoints();
+    if (!points) {
         return;
     }
-    if (!state.coordinates.points) {
-        return;
-    }
-    state.coordinates.points.forEach(drawPoint);
+
+    points.forEach(drawPoint);
 }
