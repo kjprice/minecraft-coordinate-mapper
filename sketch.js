@@ -10,6 +10,7 @@ const middleZ = (middleX + middleY) / 2;  // Avg
 
 let points = null;
 
+// TODO: Need a way to visualize points - maybe color certain items red (mountain home and lava entrence?)
 const POSITIONS = {
     'Mountain Home': [-30, 79, 91],
     'LAVA': [-50, 22, 38],
@@ -20,6 +21,24 @@ const POSITIONS = {
     'Massive cave chest': [-65, 11, 4],
     'Cave deep': [29, 23, 15],
 }
+
+function calcDistances(positions1, positions2) {
+    const diffs = [];
+    positions1.forEach((p1, i) => {
+        const p2 = positions2[i];
+        diffs.push(p1 - p2);
+    });
+
+    const diffsSquared = diffs.map(d => d * d);
+    const sumSquaredDiffs = diffsSquared.reduce((v, d) => v + d, 0);;
+    const totalDistance = Math.sqrt(sumSquaredDiffs);
+    console.log({totalDistance, diffs});
+
+    return diffs;
+}
+
+calcDistances(POSITIONS['LAVA Entrance'], POSITIONS['Cave deep'])
+calcDistances(POSITIONS['Massive cave chest'], POSITIONS['Cave deep'])
 
 function setup() {
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT, WEBGL);
