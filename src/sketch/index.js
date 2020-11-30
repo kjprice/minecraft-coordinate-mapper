@@ -1,11 +1,6 @@
 /* eslint-disable no-undef */
 import * as Settings from '../settings/sketch';
-import calcDistances from './calcDistances';
 import drawPoints from './drawPoints';
-
-
-// calcDistances(POSITIONS['Cave deep'], POSITIONS['LAVA Entrance']);
-// calcDistances(POSITIONS['Cave deep'], POSITIONS['Massive cave chest']);
 
 let fontBlack;
 function preload() {

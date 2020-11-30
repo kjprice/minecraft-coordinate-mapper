@@ -6,9 +6,8 @@ import { setToPoint, setFromPoint } from '../../redux/actions/coordinates';
 import Dropdown from './Dropdown';
 
 const PointsControls = (props) => {
-    const { points } = props;
-
     const {
+        points,
         setToPoint,
         setFromPoint,
         fromPointName, toPointName
