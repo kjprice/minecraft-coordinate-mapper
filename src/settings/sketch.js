@@ -1,4 +1,4 @@
-export const CANVAS_WIDTH = 700;
+export const CANVAS_WIDTH = 1400;
 export const CANVAS_HEIGHT = 700;
 
 export const BOX_HEIGHT = 10;
