@@ -7,7 +7,8 @@ function getPoints() {
     const {
         fromPointName,
         toPointName,
-        points
+        points,
+        averageZ
     } = state.coordinates;
 
     if (!points) {
@@ -17,7 +18,8 @@ function getPoints() {
     return points.map(p => ({
         ...p,
         isStarting: p.name === fromPointName,
-        isEnding: p.name === toPointName
+        isEnding: p.name === toPointName,
+        averageZ
     }));
 }
 

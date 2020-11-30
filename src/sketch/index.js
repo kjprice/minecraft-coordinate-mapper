@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import * as Settings from '../settings/sketch';
 import drawPoints from './drawPoints';
+import resetCamera from './resetCamera';
 
 let fontBlack;
 function preload() {
@@ -14,6 +15,7 @@ function setup() {
 }
 
 function draw() {
+    resetCamera();
     background(200);
     drawPoints();
 

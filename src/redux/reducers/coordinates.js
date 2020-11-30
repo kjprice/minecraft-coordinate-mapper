@@ -25,14 +25,25 @@ const createToPointName = (points, state = {}, forceReset) => {
 
     return toPointName;
 }
+const getZfromPoint = (point = {}) => {
+    if (!point.coordinates || !point.coordinates[2]) {
+        return 0;
+    }
+    return parseInt(point.coordinates[2]);
+}
+const createAverageZ = (points) => {
+    const sum = points.reduce((a, p) => a + getZfromPoint(p), 0);
 
+    return sum / points.length;
+}
 const createPointsInfo = (positionsByName, state, forceReset = true) => {
     const points = createPoints(positionsByName);
 
     return {
         points,
         fromPointName: createFromPointName(points, state, forceReset),
-        toPointName: createToPointName(points, state, forceReset)
+        toPointName: createToPointName(points, state, forceReset),
+        averageZ: createAverageZ(points)
     }
 }
 
