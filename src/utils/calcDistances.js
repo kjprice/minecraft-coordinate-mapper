@@ -2,7 +2,7 @@ export default function calcDistances(positions1, positions2) {
     const diffs = [];
     positions1.forEach((p1, i) => {
         const p2 = positions2[i];
-        diffs.push(p1 - p2);
+        diffs.push(p2 - p1);
     });
 
     const diffsSquared = diffs.map(d => d * d);
