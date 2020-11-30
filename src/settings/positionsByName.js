@@ -7,6 +7,7 @@ const positionsByName = {
     'Massive cave exit': [-54, 29, 30],
     'Massive cave chest': [-65, 11, 4],
     'Cave deep': [29, 23, 15],
+    'Zombie Lair': [14, 39, -57],
 }
 
 export default positionsByName;

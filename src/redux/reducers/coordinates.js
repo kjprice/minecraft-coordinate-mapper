@@ -6,15 +6,39 @@ import {
 
 import createPoints from '../utils/createPoints';
 
-import positionsByName from '../../settings/positionsByName';
+import initialPositionsByName from '../../settings/positionsByName';
 
-const initialPoints = createPoints(positionsByName)
+const createFromPointName = (points, state = {}, forceReset) => {
+    const { fromPointName } = state;
+    if (forceReset || !fromPointName) {
+        return points.slice(-1)[0].name;
+    }
+
+    return fromPointName;
+}
+
+const createToPointName = (points, state = {}, forceReset) => {
+    const { toPointName } = state;
+    if (forceReset || !toPointName) {
+        return points[0].name;
+    }
+
+    return toPointName;
+}
+
+const createPointsInfo = (positionsByName, state, forceReset = true) => {
+    const points = createPoints(positionsByName);
+
+    return {
+        points,
+        fromPointName: createFromPointName(points, state, forceReset),
+        toPointName: createToPointName(points, state, forceReset)
+    }
+}
 
 const initialState = {
-    positionsByName,
-    points: initialPoints,
-    fromPointName: initialPoints.slice(-1)[0].name,
-    toPointName: initialPoints[0].name,
+    positionsByName: initialPositionsByName,
+    ...createPointsInfo(initialPositionsByName, {}),
 };
 
 export default function coordinatesState(state = initialState, action) {
@@ -22,7 +46,8 @@ export default function coordinatesState(state = initialState, action) {
         case MINECRAFT_SET_COORDINATE_POINTS:
             return {
                 ...state,
-                coordinatePoints: action.coordinatePoints
+                positionsByName: action.positionsByName,
+                ...createPointsInfo(action.positionsByName, state)
             }
         case MINECRAFT_SET_FROM_POINT:
             return {
