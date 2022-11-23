@@ -1,0 +1,2 @@
+const SPREADSHEET_ID = '1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8';
+export default SPREADSHEET_ID;

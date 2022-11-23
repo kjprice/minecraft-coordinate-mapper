@@ -1,6 +1,7 @@
 import store from '../store';
 
 import getCoordinatesFromGoogleSheets from '../api/google.coordinates';
+// import getSpreadsheetPages from '../api/google.spreadsheet.pages';
 
 export const MINECRAFT_SET_COORDINATE_POINTS = 'MINECRAFT_SET_COORDINATE_POINTS';
 
@@ -37,8 +38,11 @@ function formatGoogleCoordinates(results) {
 }
 
 export const pullCoordinates = () => {
+    // getSpreadsheetPages();
+
     getCoordinatesFromGoogleSheets()
     .then((results) => {
+        console.log({results})
         const positionsByName = formatGoogleCoordinates(results);
 
         store.dispatch(setCoordinatePoints(positionsByName))
