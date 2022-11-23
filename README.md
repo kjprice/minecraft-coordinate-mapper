@@ -12,6 +12,23 @@ This allows a user to map values from a spreadsheet onto a 3d dimensional drawin
  1. Please install create-react-app. Then go to the root directory in a shell language, and run `npm install && npm start`.
  2. The most important thing to note here is that we are using google api https://github.com/bpk68/g-sheets-api
 
+
+### Google Developer Info
+
+Using tutorial at https://developers.google.com/sheets/api/quickstart/js#prereqs
+
+ - Project Url: https://console.cloud.google.com/home/dashboard?project=minecraft-coordinates-369518
+ - Project Name: minecraft-coordinates
+ - Project Number: 851640512484
+ - Create Credentials https://console.cloud.google.com/apis/credentials?project=minecraft-coordinates-369518
+    - API Key AIzaSyCsAkar3jishAeQ1sBAEtb2Ch-7Ki1s4h4
+    - API ID e8ab2666-c2c9-4d3d-a032-60c39dc30202
+    - Oath Client ID 851640512484-ba4t84v64uttpjmefo6big011lffdgj2.apps.googleusercontent.com 
+        - Previously ~851640512484-768fcds67n8p9g6onfp0rti453i57kee.apps.googleusercontent.com~
+
+ - Google Sheets API: https://console.cloud.google.com/apis/api/sheets.googleapis.com/metrics?project=minecraft-coordinates-369518
+
+
 TODO:
 
 - Create a unique id for points
