@@ -1,13 +1,11 @@
-<!-- Run `python -m http.server 8000` and then open http://localhost:8000/test.html -->
-<!-- TODO: Use new auth instead https://developers.google.com/identity/gsi/web/guides/overview -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sheets API Quickstart</title>
+    <title>Drive API Quickstart</title>
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>Sheets API Quickstart</p>
+    <p>Drive API Quickstart</p>
 
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
@@ -26,11 +24,11 @@
       const API_KEY = 'AIzaSyCsAkar3jishAeQ1sBAEtb2Ch-7Ki1s4h4';
 
       // Discovery doc URL for APIs used by the quickstart
-      const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
+      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
       // Authorization scopes required by the API; multiple scopes can be
       // included, separated by spaces.
-      const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+      const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
       let tokenClient;
       let gapiInited = false;
@@ -43,33 +41,27 @@
        * Callback after api.js is loaded.
        */
       function gapiLoaded() {
-        gapi.load('client', intializeGapiClient);
+        gapi.load('client', initializeGapiClient);
       }
 
       /**
        * Callback after the API client is loaded. Loads the
        * discovery doc to initialize the API.
        */
-      async function intializeGapiClient() {
+      async function initializeGapiClient() {
         await gapi.client.init({
-          immediate: true,
           apiKey: API_KEY,
           discoveryDocs: [DISCOVERY_DOC],
         });
-        console.log('gapi.client.init')
         gapiInited = true;
         maybeEnableButtons();
-        // handleAuthClick();
       }
-
-      // gapi.auth.authorize({client_id: CLIENT_ID, scope: SCOPES, immediate: true}, (...a) => console.log(a))
 
       /**
        * Callback after Google Identity Services are loaded.
        */
       function gisLoaded() {
         tokenClient = google.accounts.oauth2.initTokenClient({
-          immediate: true,
           client_id: CLIENT_ID,
           scope: SCOPES,
           callback: '', // defined later
@@ -97,16 +89,16 @@
           }
           document.getElementById('signout_button').style.visibility = 'visible';
           document.getElementById('authorize_button').innerText = 'Refresh';
-          await listMajors();
+          await listFiles();
         };
 
         if (gapi.client.getToken() === null) {
           // Prompt the user to select a Google Account and ask for consent to share their data
           // when establishing a new session.
-          tokenClient.requestAccessToken({prompt: 'consent', immediate: true,});
+          tokenClient.requestAccessToken({prompt: 'consent'});
         } else {
           // Skip display of account chooser and consent dialog for an existing session.
-          tokenClient.requestAccessToken({prompt: '', immediate: true,});
+          tokenClient.requestAccessToken({prompt: ''});
         }
       }
 
@@ -125,36 +117,30 @@
       }
 
       /**
-       * Print the names and majors of students in a sample spreadsheet:
-       * https://docs.google.com/spreadsheets/d/1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8/edit#gid=0
-       * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+       * Print metadata for first 10 files.
        */
-      async function listMajors() {
+      async function listFiles() {
         let response;
         try {
-          // Fetch first 10 files
-          response = await gapi.client.sheets.spreadsheets.values.get({
-            // https://docs.google.com/spreadsheets/d/1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc/edit#gid=0
-            spreadsheetId: '1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc',
-            range: 'Sheet1!A2:E',
+          response = await gapi.client.drive.files.list({
+            'pageSize': 10,
+            'fields': 'files(id, name)',
           });
         } catch (err) {
           document.getElementById('content').innerText = err.message;
           return;
         }
-        const range = response.result;
-        if (!range || !range.values || range.values.length == 0) {
-          document.getElementById('content').innerText = 'No values found.';
+        const files = response.result.files;
+        if (!files || files.length == 0) {
+          document.getElementById('content').innerText = 'No files found.';
           return;
         }
         // Flatten to string to display
-        const output = range.values.reduce(
-            (str, row) => `${str}${row[0]}, ${row[4]}\n`,
-            'Name, Major:\n');
+        const output = files.reduce(
+            (str, file) => `${str}${file.name} (${file.id}\n`,
+            'Files:\n');
         document.getElementById('content').innerText = output;
       }
-
-      // setTimeout(listMajors, 1000)
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>

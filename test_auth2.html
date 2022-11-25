@@ -1,0 +1,77 @@
+<!-- Built using https://developers.google.com/identity/gsi/web/guides/overview -->
+<html>
+  <body>
+      <div id="content"></div>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script src="https://sheets.google.com/gsi/client" async defer></script>
+      <script src="https://apis.google.com/js/api.js"></script>
+      <script>
+      const API_KEY = 'AIzaSyCsAkar3jishAeQ1sBAEtb2Ch-7Ki1s4h4';
+
+      // Discovery doc URL for APIs used by the quickstart
+      const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+
+        function gapiLoaded() {
+          gapi.load('client', intializeGapiClient);
+        }
+        async function intializeGapiClient() {
+          await gapi.client.init({
+            immediate: true,
+            apiKey: API_KEY,
+            discoveryDocs: [DISCOVERY_DOC],
+          });
+          console.log('gapi.client.init')
+          gapiInited = true;
+          // handleAuthClick();
+        }
+        async function listMajors() {
+          let response;
+          try {
+            // Fetch first 10 files
+            response = await gapi.client.sheets.spreadsheets.values.get({
+              // https://docs.google.com/spreadsheets/d/1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc/edit#gid=0
+              spreadsheetId: '1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc',
+              range: 'Gabe And KJ!A2:E',
+            });
+          } catch (err) {
+            console.log({err})
+            document.getElementById('content').innerText = err.message;
+            return;
+          }
+          const range = response.result;
+          if (!range || !range.values || range.values.length == 0) {
+            document.getElementById('content').innerText = 'No values found.';
+            return;
+          }
+          // Flatten to string to display
+          const output = range.values.reduce(
+              (str, row) => `${str}${row[0]}, ${row[4]}\n`,
+              'Name, Major:\n');
+          document.getElementById('content').innerText = output;
+        }
+        function handleCredentialResponse(response) {
+          console.log("Encoded JWT ID token: " + response.credential);
+          // debugger;
+          listMajors();
+        }
+        window.onload = function () {
+          gapiLoaded();
+          google.accounts.id.initialize({
+            auto_select: true,
+            client_id: "851640512484-ba4t84v64uttpjmefo6big011lffdgj2.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+          google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    </script>
+    <div id="buttonDiv"></div> 
+  </body>
+</html>
