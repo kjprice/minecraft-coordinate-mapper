@@ -1,16 +1,19 @@
+
+
 import {
-  GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL
+  GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL,
+  GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL,
 } from '../actions/googleSheets';
 
 const DEFAULT_URL = 'https://docs.google.com/spreadsheets/d/1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8/edit#gid=0'
 
 const DEFAULT_DEMO_STATE = {
   editSpreadsheetUrl: DEFAULT_URL,
+  selectedSpreadsheetUrl: DEFAULT_URL,
   infoBySpreadsheetUrl: {
     [DEFAULT_URL]: {
       keyId: '1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8',
       sheets: ['Sheet1'],
-      selectedSheet: 'Sheet1',
       primary: true,
     }
   }
@@ -36,6 +39,7 @@ const setStateToLocalStorage = (state) => {
 
   localStorage.spreadsheetUrls = JSON.stringify(spreadsheetUrls);
   localStorage.editSpreadsheetUrl = state.editSpreadsheetUrl;
+  localStorage.selectedSpreadsheetUrl = state.selectedSpreadsheetUrl;
 
   return state;
 }
@@ -54,9 +58,9 @@ const getStateFromLocalStorage = () => {
     infoBySpreadsheetUrl[spreadsheetUrl] = localStorageInfo;
   });
 
-  const { editSpreadsheetUrl } = localStorage;
+  const { editSpreadsheetUrl, selectedSpreadsheetUrl } = localStorage;
 
-  return { infoBySpreadsheetUrl, editSpreadsheetUrl };
+  return { infoBySpreadsheetUrl, editSpreadsheetUrl, selectedSpreadsheetUrl };
 }
 
 const getInitialState = () => {
@@ -65,17 +69,26 @@ const getInitialState = () => {
   return stateFromLocalStorage || DEFAULT_DEMO_STATE;
 }
 
-const updateSpreadsheetUrl = (state, editSpreadsheetUrl) => {
+const setEditSpreadsheetUrl = (state, editSpreadsheetUrl) => {
   return {
     ...state,
     editSpreadsheetUrl
   }
 };
 
+const setSelectedSpreadsheetUrl = (state, selectedSpreadsheetUrl) => {
+  return {
+    ...state,
+    selectedSpreadsheetUrl
+  }
+};
+
 export default function googleSheetsState(state = getInitialState(), action) {
   switch (action.type) {
     case GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL:
-      return setStateToLocalStorage(updateSpreadsheetUrl(state, action.editSpreadsheetUrl));
+      return setStateToLocalStorage(setEditSpreadsheetUrl(state, action.editSpreadsheetUrl));
+    case GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL:
+      return setStateToLocalStorage(setSelectedSpreadsheetUrl(state, action.selectedSpreadsheetUrl));
     default:
       return state;
   }
