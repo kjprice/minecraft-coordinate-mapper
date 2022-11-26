@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
 
 import PointsControls from './components/PointsControls/index';
 import Stats from './components/Stats';
-
-import { pullCoordinates } from './redux/actions/coordinates';
+import GoogleSheets from './components/GoogleSheets'
 
 function App() {
-  useEffect(pullCoordinates);
   
   return (
     <div className="App">
+      <GoogleSheets />
       <PointsControls />
       <Stats />
     </div>
