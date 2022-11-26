@@ -1,11 +1,11 @@
 import {
-  GOOGLE_SHEET_SET_SPREADSHEET_URL
+  GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL
 } from '../actions/googleSheets';
 
 const DEFAULT_URL = 'https://docs.google.com/spreadsheets/d/1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8/edit#gid=0'
 
 const DEFAULT_DEMO_STATE = {
-  spreadsheetUrl: DEFAULT_URL,
+  editSpreadsheetUrl: DEFAULT_URL,
   infoBySpreadsheetUrl: {
     [DEFAULT_URL]: {
       keyId: '1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8',
@@ -18,6 +18,26 @@ const DEFAULT_DEMO_STATE = {
 
 const getLocalStorageKeyForSpreadsheetUrl = (spreadsheetUrl) => {
   return `spreadsheetByUrl_${spreadsheetUrl}`;
+}
+
+
+const setStateToLocalStorage = (state) => {
+  if (!state.infoBySpreadsheetUrl) {
+    return;
+  }
+
+  const spreadsheetUrls = Object.keys(state.infoBySpreadsheetUrl);
+
+  spreadsheetUrls.forEach(spreadsheetUrl => {
+    const spreadsheetInfo = state.infoBySpreadsheetUrl[spreadsheetUrl];
+    const localStorageKey = getLocalStorageKeyForSpreadsheetUrl(spreadsheetUrl);
+    localStorage[localStorageKey] = JSON.stringify(spreadsheetInfo);
+  });
+
+  localStorage.spreadsheetUrls = JSON.stringify(spreadsheetUrls);
+  localStorage.editSpreadsheetUrl = state.editSpreadsheetUrl;
+
+  return state;
 }
 
 const getStateFromLocalStorage = () => {
@@ -34,9 +54,9 @@ const getStateFromLocalStorage = () => {
     infoBySpreadsheetUrl[spreadsheetUrl] = localStorageInfo;
   });
 
-  const { spreadsheetUrl } = localStorage;
+  const { editSpreadsheetUrl } = localStorage;
 
-  return { infoBySpreadsheetUrl, spreadsheetUrl };
+  return { infoBySpreadsheetUrl, editSpreadsheetUrl };
 }
 
 const getInitialState = () => {
@@ -45,17 +65,17 @@ const getInitialState = () => {
   return stateFromLocalStorage || DEFAULT_DEMO_STATE;
 }
 
-const updateSpreadsheetUrl = (state, spreadsheetUrl) => {
+const updateSpreadsheetUrl = (state, editSpreadsheetUrl) => {
   return {
     ...state,
-    spreadsheetUrl
+    editSpreadsheetUrl
   }
 };
 
 export default function googleSheetsState(state = getInitialState(), action) {
   switch (action.type) {
-    case GOOGLE_SHEET_SET_SPREADSHEET_URL:
-      return updateSpreadsheetUrl(state, action.spreadsheetUrl);
+    case GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL:
+      return setStateToLocalStorage(updateSpreadsheetUrl(state, action.editSpreadsheetUrl));
     default:
       return state;
   }
