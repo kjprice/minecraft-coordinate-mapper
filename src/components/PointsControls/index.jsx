@@ -1,33 +1,29 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 
-import { setToPoint, setFromPoint } from '../../redux/actions/coordinates';
+import { setToPoint, setFromPoint } from '../../redux/actions/googleSheets';
 
 import Dropdown from './Dropdown';
 
 const PointsControls = (props) => {
     const {
-        points,
         setToPoint,
         setFromPoint,
-        fromPointName, toPointName
+        coordinates, coordinateStartId, coordinateEndId
     } = props;
 
-    // TODO: Need unique ids instead of just "name"
-    const names = useMemo(() => points.map(p => p.name), [points]);
-
     return <div>
-        <Dropdown onChange={(e) => setFromPoint(e.target.value)} selectedName={fromPointName} names={names} />
-        <Dropdown onChange={(e) => setToPoint(e.target.value)} selectedName={toPointName} names={names} />
+        <Dropdown onChange={(e) => setFromPoint(parseFloat(e.target.value))} selectedCoordinateId={coordinateStartId} coordinates={coordinates} />
+        <Dropdown onChange={(e) => setToPoint(parseFloat(e.target.value))} selectedCoordinateId={coordinateEndId} coordinates={coordinates} />
     </div>
 }
 
 const mapStateToProp = (state) => {
-    const { coordinates } = state;
+    const { googleSheets } = state;
 
-    const { points, fromPointName, toPointName } = coordinates;
+    const { coordinates, coordinateStartId, coordinateEndId } = googleSheets;
     return {
-        points, fromPointName, toPointName
+        coordinates, coordinateStartId, coordinateEndId
     }
 }
 

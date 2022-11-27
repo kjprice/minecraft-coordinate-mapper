@@ -7,9 +7,8 @@ import {
 } from '../settings/sketch';
 
 export default function drawPoint(point) {
-    const { coordinates, isStarting, isEnding, averageZ } = point;
+    const { x, y, z, isStarting, isEnding, averageZ } = point;
     push();
-    const [x, y, z] = coordinates;
 
     // For p5.js sketches, the y value at the top of the sketch starts at 0
     const invertedY = CANVAS_HEIGHT - y;

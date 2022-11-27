@@ -1,22 +1,22 @@
 import React from 'react';
 
 const Option = (props) => {
-    const {name} = props;
+    const {coordinate} = props;
 
-    return <option value={name}>{name}</option>
+    return <option value={coordinate.id}>{coordinate.name || coordinate.type}</option>
 }
 
 const Options = (props) => {
-    const {names} = props;
+    const {coordinates} = props;
     
-    return names.map(name => <Option key={name} name={name}/>)
+    return coordinates.map(coordinate => <Option key={coordinate.id} coordinate={coordinate}/>)
 }
 
 const PointsControlDropdown = (props) => {
-    const { onChange, names, selectedName } = props;
+    const { onChange, selectedCoordinateId, coordinates } = props;
 
-    return <select value={selectedName} onChange={onChange}>
-        <Options names={names} />
+    return <select value={selectedCoordinateId} onChange={onChange}>
+        <Options coordinates={coordinates} />
     </select>
 }
 

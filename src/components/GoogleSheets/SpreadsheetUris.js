@@ -10,7 +10,7 @@ const mapStateToProp = (state) => {
   const spreadsheetUrls = Object.keys(infoBySpreadsheetUrl);
   return {
     selectedSpreadsheetUrl,
-      spreadsheetUrls,
+    spreadsheetUrls,
   }
 }
 

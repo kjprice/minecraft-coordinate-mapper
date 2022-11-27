@@ -1,9 +1,9 @@
-export default function calcDistances(positions1, positions2) {
-    const diffs = [];
-    positions1.forEach((p1, i) => {
-        const p2 = positions2[i];
-        diffs.push(p2 - p1);
-    });
+export default function calcDistances(coordinates1, coordinates2) {
+    const diffs = [
+        coordinates2.x - coordinates1.x,
+        coordinates2.y - coordinates1.y,
+        coordinates2.z - coordinates1.z,
+    ];
 
     const diffsSquared = diffs.map(d => d * d);
     const sumSquaredDiffs = diffsSquared.reduce((v, d) => v + d, 0);;
