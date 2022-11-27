@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import calcDistances from '../utils/calcDistances';
 import getStartingEndingPoints from '../utils/getStartingEndingPoints';
 
-function _calcDistance(points, fromPointName, toPointName) {
-    const _points = getStartingEndingPoints(fromPointName,
-        toPointName,
-        points);
+function _calcDistance(coordinates, coordinateStartId, coordinateEndId) {
+    const _points = getStartingEndingPoints(coordinateStartId,
+        coordinateEndId,
+        coordinates);
 
     if (!_points) {
         return;
@@ -16,14 +16,13 @@ function _calcDistance(points, fromPointName, toPointName) {
         startPoint, endPoint
     } = _points;
 
-    return calcDistances(startPoint.coordinates, endPoint.coordinates);
+    return calcDistances(startPoint, endPoint);
 }
 
 const Stats = (props) => {
-    const { points, fromPointName, toPointName } = props;
+    const { coordinates, coordinateStartId, coordinateEndId } = props;
 
-    // TODO: Need unique ids instead of just "name"
-    const distances = useMemo(() => _calcDistance(points, fromPointName, toPointName), [points, fromPointName, toPointName]);
+    const distances = useMemo(() => _calcDistance(coordinates, coordinateStartId, coordinateEndId), [coordinates, coordinateStartId, coordinateEndId]);
 
     const {
         // diffs,
@@ -40,11 +39,11 @@ const Stats = (props) => {
 }
 
 const mapStateToProp = (state) => {
-    const { coordinates } = state;
+    const { googleSheets } = state;
 
-    const { points, fromPointName, toPointName } = coordinates;
+    const { coordinates, coordinateStartId, coordinateEndId } = googleSheets;
     return {
-        points, fromPointName, toPointName
+        coordinates, coordinateStartId, coordinateEndId
     }
 }
 

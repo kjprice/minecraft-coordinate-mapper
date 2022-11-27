@@ -1,16 +1,16 @@
-const filterByName = (points, name) => {
-    return points.filter(p => p.name === name)[0]
+const filterById = (coordinates, id) => {
+    return coordinates.filter(p => p.id === id)[0]
 }
 
-export default function getStartingEndingPoints(fromPointName,
-    toPointName,
-    points) {
+export default function getStartingEndingPoints(coordinateStartId,
+    coordinateEndId,
+    coordinates) {
     
-    const startPoint = filterByName(points, fromPointName);
+    const startPoint = filterById(coordinates, coordinateStartId);
     if (!startPoint) {
         return null;
     }
-    const endPoint = filterByName(points, toPointName);
+    const endPoint = filterById(coordinates, coordinateEndId);
     if (!endPoint) {
         return null;
     }

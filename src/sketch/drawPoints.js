@@ -2,32 +2,32 @@ import drawPoint from './drawPoint';
 
 import store from '../redux/store';
 
-function getPoints() {
+function getCoordinates() {
     const state = store.getState();
     const {
-        fromPointName,
-        toPointName,
-        points,
+        coordinateStartId,
+        coordinateEndId,
+        coordinates,
         averageZ
-    } = state.coordinates;
+    } = state.googleSheets;
 
-    if (!points) {
-        return null;;
+    if (!coordinates) {
+        return null;
     }
 
-    return points.map(p => ({
-        ...p,
-        isStarting: p.name === fromPointName,
-        isEnding: p.name === toPointName,
+    return coordinates.map(coordinateInfo => ({
+        ...coordinateInfo,
+        isStarting: coordinateInfo.id === coordinateStartId,
+        isEnding: coordinateInfo.id === coordinateEndId,
         averageZ
     }));
 }
 
 export default function drawPoints() {
-    const points = getPoints();
-    if (!points) {
+    const coordinates = getCoordinates();
+    if (!coordinates) {
         return;
     }
 
-    points.forEach(drawPoint);
+    coordinates.forEach(drawPoint);
 }
