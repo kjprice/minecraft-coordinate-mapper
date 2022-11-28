@@ -22,14 +22,18 @@ function getSpreadsheetId(spreadsheetUrl) {
 }
 
       
-export function getSpreadsheetSheetNames(spreadsheetUrl) {
+export function getSpreadsheetMetadata(spreadsheetUrl) {
   // const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc/edit#gid=0'
   const spreadsheetId = getSpreadsheetId(spreadsheetUrl);
   return gapi.client.sheets.spreadsheets.get({spreadsheetId})
   .then(response => {
-    const { sheets } = response.result;
-    console.log({sheets});
-    return sheets.map(sheet => sheet.properties.title);
+    const sheetNames = response.result.sheets.map(sheet => sheet.properties.title);
+    const spreadsheetName = response.result.properties.title;
+
+    return {
+      sheetNames,
+      spreadsheetName,
+    };
   });
 }
 

@@ -11,6 +11,7 @@ const mapStateToProp = (state) => {
   return {
     selectedSpreadsheetUrl,
     spreadsheetUrls,
+    infoBySpreadsheetUrl,
   }
 }
 
@@ -25,10 +26,10 @@ function DefaultOption(props) {
 }
 
 function SpreadsheetUris(props) {
-  const { selectedSpreadsheetUrl, spreadsheetUrls, setSelectedSpreadsheetUrl } = props;
+  const { selectedSpreadsheetUrl, infoBySpreadsheetUrl, spreadsheetUrls, setSelectedSpreadsheetUrl } = props;
   return <select value={selectedSpreadsheetUrl} onChange={(e => setSelectedSpreadsheetUrl(e.target.value))}>
     <DefaultOption selectedSpreadsheetUrl={selectedSpreadsheetUrl} spreadsheetUrls={spreadsheetUrls} />
-    {spreadsheetUrls.map(spreadsheetUrl => <option key={spreadsheetUrl} value={spreadsheetUrl}>{spreadsheetUrl}</option>)}
+    {spreadsheetUrls.map(spreadsheetUrl => <option key={spreadsheetUrl} value={spreadsheetUrl}>{infoBySpreadsheetUrl[spreadsheetUrl].name}</option>)}
   </select>
 }
 

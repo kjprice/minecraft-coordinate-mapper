@@ -2,6 +2,7 @@ export const GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL = 'GOOGLE_SHEET_SET_EDIT_SPRE
 export const GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL = 'GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL';
 export const GOOGLE_SHEET_SET_SHEET_VALUES = 'GOOGLE_SHEET_SET_SHEET_VALUES';
 export const GOOGLE_SHEET_SET_SHEET_NAMES = 'GOOGLE_SHEET_SET_SHEET_NAMES';
+export const GOOGLE_SHEET_SET_SPREADSHEETNAME = 'GOOGLE_SHEET_SET_SPREADSHEETNAME';
 export const GOOGLE_SHEET_SET_AUTHENTICATED = 'GOOGLE_SHEET_SET_AUTHENTICATED';
 export const GOOGLE_SHEET_SET_SELECTED_SHEET_NAME = 'GOOGLE_SHEET_SET_SELECTED_SHEET_NAME';
 export const MINECRAFT_SET_FROM_POINT = 'MINECRAFT_SET_FROM_POINT';
@@ -28,6 +29,11 @@ export const setAuthenticated = () => ({
 export const setSheetNames = (sheetNames) => ({
   type: GOOGLE_SHEET_SET_SHEET_NAMES,
   sheetNames
+});
+
+export const setSpreadsheetName = (spreadsheetName) => ({
+  type: GOOGLE_SHEET_SET_SPREADSHEETNAME,
+  spreadsheetName
 });
 
 export const setSheetValues = (sheetValues) => ({
