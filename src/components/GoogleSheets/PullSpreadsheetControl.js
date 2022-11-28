@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import { setAuthenticated, setSheetNames, setSheetValues, setSelectedSheet } from '../../redux/actions/googleSheets';
-import { authenticate, getSpreadsheetSheetNames, getSpreadsheetValues } from '../../redux/api/google.auth.spreadsheets';
+import { setAuthenticated, setSheetNames, setSpreadsheetName, setSheetValues, setSelectedSheet } from '../../redux/actions/googleSheets';
+import { authenticate, getSpreadsheetMetadata, getSpreadsheetValues } from '../../redux/api/google.auth.spreadsheets';
 
 const mapStateToProp = (state) => {
   const { googleSheets } = state;
@@ -36,9 +36,11 @@ function authenticateIfNecessary(isAuthenticated, setAuthenticated) {
 
 }
 
-function loadSheetNames(selectedSpreadsheetUrl, setSheetNames) {
-  return getSpreadsheetSheetNames(selectedSpreadsheetUrl).then(sheetNames => {
+function loadSheetNames(selectedSpreadsheetUrl, setSheetNames, setSpreadsheetName) {
+  return getSpreadsheetMetadata(selectedSpreadsheetUrl).then(metadata => {
+    const { sheetNames, spreadsheetName } = metadata;
     setSheetNames(sheetNames);
+    setSpreadsheetName(spreadsheetName);
     return sheetNames;
   });
 }
@@ -61,11 +63,11 @@ function setSelectedSheetNameIfNecessary(selectedSheet, sheetNames, setSelectedS
 }
 
 function loadAllSheetData(props) {
-  const { setAuthenticated, setSheetNames, setSheetValues, setSelectedSheet } = props;
+  const { setAuthenticated, setSheetNames, setSpreadsheetName, setSheetValues, setSelectedSheet } = props;
   const { selectedSpreadsheetUrl, selectedSheet, isAuthenticated } = props;
 
   return authenticateIfNecessary(isAuthenticated, setAuthenticated)
-  .then(() => loadSheetNames(selectedSpreadsheetUrl, setSheetNames))
+  .then(() => loadSheetNames(selectedSpreadsheetUrl, setSheetNames, setSpreadsheetName))
   .then((sheetNames) => setSelectedSheetNameIfNecessary(selectedSheet, sheetNames, setSelectedSheet))
   .then((newSelectedSheet) => loadSpreadsheetValues(selectedSpreadsheetUrl, newSelectedSheet, setSheetValues))
 }
@@ -77,7 +79,7 @@ function PullSpreadsheetControl(props) {
 }
 
 const actions = {
-  setAuthenticated, setSheetNames, setSheetValues, setSelectedSheet
+  setAuthenticated, setSheetNames, setSpreadsheetName, setSheetValues, setSelectedSheet
 };
 
 

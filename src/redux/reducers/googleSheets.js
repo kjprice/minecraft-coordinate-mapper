@@ -7,6 +7,7 @@ import {
   GOOGLE_SHEET_SET_SHEET_NAMES,
   GOOGLE_SHEET_SET_AUTHENTICATED,
   GOOGLE_SHEET_SET_SELECTED_SHEET_NAME,
+  GOOGLE_SHEET_SET_SPREADSHEETNAME,
   MINECRAFT_SET_FROM_POINT,
   MINECRAFT_SET_TO_POINT,
 } from '../actions/googleSheets';
@@ -30,16 +31,23 @@ const createAverageZ = (coordinates) => {
   return sum / coordinates.length;
 }
 
+const createCoordinatesState = coordinates => {
+  return {
+    coordinates,
+    coordinateStartId: coordinates[0].id,
+    coordinateEndId: coordinates[coordinates.length - 1].id,
+    averageZ: createAverageZ(coordinates), // TODO: Fix this
+  }
+}
+
 const DEFAULT_DEMO_STATE = {
   isAuthenticated: false,
   editSpreadsheetUrl: DEFAULT_URL,
   selectedSpreadsheetUrl: DEFAULT_URL,
-  coordinates: DEFAULT_COORDINATES,
-  coordinateStartId: DEFAULT_COORDINATES[0].id,
-  coordinateEndId: DEFAULT_COORDINATES[DEFAULT_COORDINATES.length - 1].id,
-  averageZ: createAverageZ(DEFAULT_COORDINATES), // TODO: Fix this
+  ...createCoordinatesState(DEFAULT_COORDINATES),
   infoBySpreadsheetUrl: {
     [DEFAULT_URL]: {
+      name: 'kj',
       // keyId: '1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8',
       sheets: [DEFAULT_SHEET_NAME],
       selectedSheet: DEFAULT_SHEET_NAME,
@@ -71,6 +79,7 @@ const setStateToLocalStorage = (state) => {
   localStorage.spreadsheetUrls = JSON.stringify(spreadsheetUrls);
   localStorage.editSpreadsheetUrl = state.editSpreadsheetUrl;
   localStorage.selectedSpreadsheetUrl = state.selectedSpreadsheetUrl;
+  localStorage.coordinates = JSON.stringify(state.coordinates);
 
   return state;
 }
@@ -90,8 +99,9 @@ const getStateFromLocalStorage = () => {
   });
 
   const { editSpreadsheetUrl, selectedSpreadsheetUrl } = localStorage;
+  const coordinates = JSON.parse(localStorage.coordinates);
 
-  return { infoBySpreadsheetUrl, editSpreadsheetUrl, selectedSpreadsheetUrl };
+  return { infoBySpreadsheetUrl, editSpreadsheetUrl, selectedSpreadsheetUrl, ...createCoordinatesState(coordinates) };
 }
 
 const getInitialState = () => {
@@ -150,6 +160,10 @@ const setSheetNames = (state, sheetNames) => {
   return updateSelectedSpreadsheetField(state, 'sheets', sheetNames);
 };
 
+const setSpreadsheetName = (state, spreadsheetName) => {
+  return updateSelectedSpreadsheetField(state, 'name', spreadsheetName);
+};
+
 const setSheetValues = (state, sheetValues) => {
   const spreadsheetInfo = state.infoBySpreadsheetUrl[state.selectedSpreadsheetUrl];
   const { selectedSheet, valuesBySheetName } = spreadsheetInfo;
@@ -187,6 +201,8 @@ export default function googleSheetsState(state = getInitialState(), action) {
       return setAuthenticated(state);
     case GOOGLE_SHEET_SET_SHEET_NAMES:
       return setStateToLocalStorage(setSheetNames(state, action.sheetNames));
+    case GOOGLE_SHEET_SET_SPREADSHEETNAME:
+      return setStateToLocalStorage(setSpreadsheetName(state, action.spreadsheetName));
     case GOOGLE_SHEET_SET_SHEET_VALUES:
       return setStateToLocalStorage(setSheetValues(state, action.sheetValues));
     case MINECRAFT_SET_FROM_POINT:
