@@ -134,10 +134,15 @@
         try {
           // Fetch first 10 files
           response = await gapi.client.sheets.spreadsheets.values.get({
+            // https://docs.google.com/spreadsheets/d/1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8/edit#gid=0
+            spreadsheetId: '1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8',
+            range: 'Gabe And KJ',
             // https://docs.google.com/spreadsheets/d/1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc/edit#gid=0
-            spreadsheetId: '1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc',
-            range: 'Sheet1!A2:E',
+            // spreadsheetId: '1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc',
+            // range: 'Sheet1!A2:E',
           });
+          // 
+
         } catch (err) {
           document.getElementById('content').innerText = err.message;
           return;
@@ -153,6 +158,19 @@
             'Name, Major:\n');
         document.getElementById('content').innerText = output;
       }
+      
+      function getSpreadsheetSheetNames() {
+        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc/edit#gid=0'
+        const spreadsheetId = spreadsheetUrl.split('spreadsheets/d/')[1].split('/edit')[0]
+        return gapi.client.sheets.spreadsheets.get({spreadsheetId: '1ynP94NWJFvC-fogo-KSFHMa3DVFQcsyQMA1dlhqa7oc'})
+        .then(response => {
+          const { sheets } = response.result;
+          console.log({sheets});
+          return sheets.map(sheet => sheet.properties.title);
+        });
+      }
+
+      getSpreadsheetSheetNames().then((sheetNames) => console.log(sheetNames))
 
       // setTimeout(listMajors, 1000)
     </script>
