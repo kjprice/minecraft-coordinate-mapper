@@ -7,6 +7,7 @@ import {
   GOOGLE_SHEET_SET_SHEET_NAMES,
   GOOGLE_SHEET_SET_AUTHENTICATED,
   GOOGLE_SHEET_SET_SELECTED_SHEET_NAME,
+  GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME,
   GOOGLE_SHEET_SET_SPREADSHEETNAME,
   MINECRAFT_SET_FROM_POINT,
   MINECRAFT_SET_TO_POINT,
@@ -189,6 +190,10 @@ const setFromPoint = (state, coordinateId) => {
   }
 }
 
+const setSelectedSpreadsheetSheetName = (state, selectedSheetName) => {
+  return updateSelectedSpreadsheetField(state, 'selectedSheet', selectedSheetName);
+}
+
 export default function googleSheetsState(state = getInitialState(), action) {
   switch (action.type) {
     case GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL:
@@ -205,6 +210,8 @@ export default function googleSheetsState(state = getInitialState(), action) {
       return setStateToLocalStorage(setSpreadsheetName(state, action.spreadsheetName));
     case GOOGLE_SHEET_SET_SHEET_VALUES:
       return setStateToLocalStorage(setSheetValues(state, action.sheetValues));
+    case GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME:
+      return setStateToLocalStorage(setSelectedSpreadsheetSheetName(state, action.selectedSheetName));
     case MINECRAFT_SET_FROM_POINT:
       return setFromPoint(state, action.coordinateId)
     case MINECRAFT_SET_TO_POINT:

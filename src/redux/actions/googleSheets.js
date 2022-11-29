@@ -1,4 +1,5 @@
 export const GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL = 'GOOGLE_SHEET_SET_EDIT_SPREADSHEET_URL';
+export const GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME = 'GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME';
 export const GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL = 'GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL';
 export const GOOGLE_SHEET_SET_SHEET_VALUES = 'GOOGLE_SHEET_SET_SHEET_VALUES';
 export const GOOGLE_SHEET_SET_SHEET_NAMES = 'GOOGLE_SHEET_SET_SHEET_NAMES';
@@ -49,4 +50,9 @@ export const setEditSpreadsheetUrl = (editSpreadsheetUrl) => ({
 export const setSelectedSpreadsheetUrl = (selectedSpreadsheetUrl) => ({
   type: GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL,
   selectedSpreadsheetUrl
+});
+
+export const setSelectedSpreadsheetSheetName = (selectedSheetName) => ({
+  type: GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME,
+  selectedSheetName
 });
