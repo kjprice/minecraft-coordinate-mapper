@@ -6,7 +6,6 @@ import {
   GOOGLE_SHEET_SET_SHEET_VALUES,
   GOOGLE_SHEET_SET_SHEET_NAMES,
   GOOGLE_SHEET_SET_AUTHENTICATED,
-  GOOGLE_SHEET_SET_SELECTED_SHEET_NAME,
   GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_SHEET_NAME,
   GOOGLE_SHEET_SET_SPREADSHEETNAME,
   MINECRAFT_SET_FROM_POINT,
@@ -200,8 +199,6 @@ export default function googleSheetsState(state = getInitialState(), action) {
       return setStateToLocalStorage(setEditSpreadsheetUrl(state, action.editSpreadsheetUrl));
     case GOOGLE_SHEET_SET_SELECTED_SPREADSHEET_URL:
       return setStateToLocalStorage(setSelectedSpreadsheetUrl(state, action.selectedSpreadsheetUrl));
-    case GOOGLE_SHEET_SET_SELECTED_SHEET_NAME:
-      return setStateToLocalStorage(setSelectedSheet(state, action.sheetName));
     case GOOGLE_SHEET_SET_AUTHENTICATED:
       return setAuthenticated(state);
     case GOOGLE_SHEET_SET_SHEET_NAMES:
