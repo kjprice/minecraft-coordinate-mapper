@@ -3,10 +3,11 @@ import SpreadsheetUris from "./SpreadsheetUris";
 import PullSpreadsheetControl from "./PullSpreadsheetControl";
 import SheetNameControl from "./SheetNameControl";
 
-// TODO: List all spreadsheets in drop down
-// TODO: Add a button to set (or refresh if url has already been used)
-// TODO: On set, authenticate user (if not already authenticated), get all sheets from spreadsheet, allow user to select a sheet
+// TODO: Create button to add a new spreadsheet
+//  - When clicked show textbox for new spreadsheet and a button called "set"
+//  - When clicked, perform normal sync but also set the spreadsheet url with associated info
 
+// TODO: When new sheet is selected, show the data if exists, otherwise pull the data for the sheet
 
 const GoogleSheets = () => {
   return <div>
