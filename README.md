@@ -16,3 +16,13 @@ Dream TODO:
 - Extract coordinates from picture
 - Ask user for name of point
 - Show picture of point when user highlights row in table
+
+
+### TO Start:
+
+```
+nvm install 16.18.0
+nvm use 16.18.0
+npm install
+npm start
+```
