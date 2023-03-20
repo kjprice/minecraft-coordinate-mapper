@@ -19,7 +19,26 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script src="%PUBLIC_URL%/assets/p5.js"></script>
-  
+    <script>
+      let pickerInited = false;
+      let gisInited = false;
+
+      function onApiLoad() {
+        gapi.load('picker', onPickerApiLoad);
+      }
+      function onPickerApiLoad() {
+        pickerInited = true;
+        // createPicker();
+      }
+      function gisLoaded() {
+        gisInited = true;
+    }
+
+
+
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="onApiLoad()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <title>React App</title>
   </head>
   <body>
