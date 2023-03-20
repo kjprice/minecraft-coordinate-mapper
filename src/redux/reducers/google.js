@@ -1,10 +1,12 @@
 import {
     GOOGLE_SET_ACCESS_TOKEN,
+    GOOGLE_PICKER_MESSAGE,
 } from '../actions/google';
 
 
 const initialState = {
     accessToken: null,
+    googlePickerMessage: ''
 };
 
 export default function googleState(state = initialState, action) {
@@ -14,7 +16,12 @@ export default function googleState(state = initialState, action) {
                 ...state,
                 accessToken: action.accessToken,
             }
-       default:
-            return state;
+        case GOOGLE_PICKER_MESSAGE:
+            return {
+                ...state,
+                googlePickerMessage: action.pickerMessage,
+            }
+        default:
+        return state;
     }
 }

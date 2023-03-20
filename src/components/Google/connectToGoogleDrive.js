@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import store from '../../redux/store';
-import { setGoogleAccessToken } from '../../redux/actions/google';
+import { setGoogleAccessToken, setGooglePickerMessage } from '../../redux/actions/google';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
 console.log({googleClientId, googleDriveFilePickerScope, googleApiKey});
@@ -10,8 +11,9 @@ let gisLocalInited = false;
 let gisLocalStarted = false;
 
 function gisLoaded() {
+    // debugger;
     // TODO(developer): Replace with your client ID and required scopes
-    tokenClient = global.google.accounts.oauth2.initTokenClient({
+    tokenClient = google.accounts.oauth2.initTokenClient({
         // TODO: pull from config
         client_id: googleClientId,
         scope: googleDriveFilePickerScope,
@@ -27,10 +29,10 @@ function createPicker() {
     }
     // debugger;
     const showPicker = () => {
-        // debugger;
+        debugger;
         // TODO(developer): Replace with your API key
-        const picker = new global.google.picker.PickerBuilder()
-            .addView(global.google.picker.ViewId.DOCS)
+        const picker = new google.picker.PickerBuilder()
+            .addView(google.picker.ViewId.DOCS)
             .setOAuthToken(accessToken)
             // TODO: Pull from config
             .setDeveloperKey(googleApiKey)
@@ -58,28 +60,28 @@ function createPicker() {
         // Skip display of account chooser and consent dialog for an existing session.
         tokenClient.requestAccessToken({ prompt: '' });
     }
-    debugger;
+    // debugger;
 
     return true;
 }
 // A simple callback implementation.
 function pickerCallback(data) {
-    debugger;
     let url = 'nothing';
-    if (data[global.google.picker.Response.ACTION] === global.google.picker.Action.PICKED) {
-        let doc = data[global.google.picker.Response.DOCUMENTS][0];
-        url = doc[global.google.picker.Document.URL];
+    if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+        let doc = data[google.picker.Response.DOCUMENTS][0];
+        url = doc[google.picker.Document.URL];
     }
     let message = `You picked: ${url}`;
-    document.getElementById('result').innerText = message;
+    setGooglePickerMessage(message);
+    // document.getElementById('result').innerText = message;
 }
 
 function startGoogle() {
-    if (!global.pickerInited || !global.gisInited) {
+    if (!pickerInited || !gisInited) {
         return false;
     }
     if (gisLocalStarted) {
-        return false;
+        return true;
     }
     gisLocalStarted = true;
     return gisLoaded();

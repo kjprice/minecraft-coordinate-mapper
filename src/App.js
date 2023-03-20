@@ -2,7 +2,7 @@
 import PointsControls from './components/PointsControls/index';
 import Stats from './components/Stats';
 
-import { pullCoordinates } from './redux/actions/coordinates';
+// import { pullCoordinates } from './redux/actions/coordinates';
 import { startGoogleInterval } from './components/Google/connectToGoogleDrive.js';
 // 'src/'
 import GoogleSheets from './components/GoogleSheets'
