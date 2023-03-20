@@ -22,34 +22,36 @@ function gisLoaded() {
     gisLocalInited = true;
     return createPicker();
 }
+export const showPicker = () => {
+    const picker = new google.picker.PickerBuilder()
+        // Only allow user to pick google sheets
+        // https://developers.google.com/drive/picker/guides/overview
+        .addView(google.picker.ViewId.SPREADSHEETS)
+        .setOAuthToken(accessToken)
+        // TODO: Pull from config
+        .setDeveloperKey(googleApiKey)
+        .setCallback(pickerCallback)
+        .build();
+    picker.setVisible(true);
+}
+
 // Create and render a Google Picker object for selecting from Drive
 function createPicker() {
     if (!gisLocalInited) {
         return false;
     }
     // debugger;
-    const showPicker = () => {
-        debugger;
-        // TODO(developer): Replace with your API key
-        const picker = new google.picker.PickerBuilder()
-            .addView(google.picker.ViewId.DOCS)
-            .setOAuthToken(accessToken)
-            // TODO: Pull from config
-            .setDeveloperKey(googleApiKey)
-            .setCallback(pickerCallback)
-            .build();
-        picker.setVisible(true);
-    }
 
     // Request an access token
     tokenClient.callback = async (response) => {
-        debugger;
         if (response.error !== undefined) {
             throw (response);
         }
         accessToken = response.access_token;
-        store.dispatch(setGoogleAccessToken(accessToken))
-        showPicker();
+        store.dispatch(setGoogleAccessToken(accessToken));
+        localStorage.googleAccessToken = accessToken;
+        // TODO: Move outside - make a button available to click at this time
+        // showPicker();
     };
 
     if (accessToken === null) {
@@ -72,6 +74,7 @@ function pickerCallback(data) {
         url = doc[google.picker.Document.URL];
     }
     let message = `You picked: ${url}`;
+    console.log({message});
     setGooglePickerMessage(message);
     // document.getElementById('result').innerText = message;
 }

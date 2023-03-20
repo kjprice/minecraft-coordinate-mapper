@@ -1,12 +1,14 @@
 import {
     GOOGLE_SET_ACCESS_TOKEN,
     GOOGLE_PICKER_MESSAGE,
+    GOOGLE_SELECT_SPREADSHEET_INIT,
 } from '../actions/google';
 
 
 const initialState = {
     accessToken: null,
-    googlePickerMessage: ''
+    googlePickerMessage: '',
+    spreadsheetSelectedStatus: null,
 };
 
 export default function googleState(state = initialState, action) {
@@ -20,6 +22,11 @@ export default function googleState(state = initialState, action) {
             return {
                 ...state,
                 googlePickerMessage: action.pickerMessage,
+            }
+        case GOOGLE_SELECT_SPREADSHEET_INIT:
+            return {
+                ...state,
+                spreadsheetSelectedStatus: 'inprogress'
             }
         default:
         return state;

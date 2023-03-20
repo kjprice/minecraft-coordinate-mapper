@@ -4,6 +4,7 @@ import Stats from './components/Stats';
 
 // import { pullCoordinates } from './redux/actions/coordinates';
 import { startGoogleInterval } from './components/Google/connectToGoogleDrive.js';
+import SelectSpreadsheet from './components/GoogleSheets/SelectSpreadsheet'
 // 'src/'
 import GoogleSheets from './components/GoogleSheets'
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <GoogleSheets />
+      <SelectSpreadsheet />
       <PointsControls />
       <Stats />
     </div>
