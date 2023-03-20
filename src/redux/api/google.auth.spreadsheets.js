@@ -45,5 +45,7 @@ export async function getSpreadsheetValues(spreadsheetUrl, sheetName) {
     range: sheetName,
   });
 
-  return response.values;
+  console.log({response});
+
+  return response.result.values;
 }

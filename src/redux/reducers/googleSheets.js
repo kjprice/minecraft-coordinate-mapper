@@ -32,6 +32,9 @@ const createAverageZ = (coordinates) => {
 }
 
 const createCoordinatesState = coordinates => {
+  if (!coordinates) {
+    return {};
+  }
   return {
     coordinates,
     coordinateStartId: coordinates[0].id,
@@ -165,6 +168,7 @@ const setSpreadsheetName = (state, spreadsheetName) => {
 };
 
 const setSheetValues = (state, sheetValues) => {
+  console.log({sheetValues})
   const spreadsheetInfo = state.infoBySpreadsheetUrl[state.selectedSpreadsheetUrl];
   const { selectedSheet, valuesBySheetName } = spreadsheetInfo;
 
@@ -190,7 +194,12 @@ const setFromPoint = (state, coordinateId) => {
 }
 
 const setSelectedSpreadsheetSheetName = (state, selectedSheetName) => {
-  return updateSelectedSpreadsheetField(state, 'selectedSheet', selectedSheetName);
+  const spreadsheetValues = state.infoBySpreadsheetUrl[state.selectedSpreadsheetUrl].valuesBySheetName[selectedSheetName];
+  console.log({spreadsheetValues})
+  return {
+    ...updateSelectedSpreadsheetField(state, 'selectedSheet', selectedSheetName),
+    // ...createCoordinatesState(spreadsheetValues)
+  };
 }
 
 export default function googleSheetsState(state = getInitialState(), action) {
