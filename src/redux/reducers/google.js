@@ -1,13 +1,13 @@
 import {
     GOOGLE_SET_ACCESS_TOKEN,
-    GOOGLE_SELECTED_SHEET_URL,
+    SET_GOOGLE_SELECTED_SHEET,
     GOOGLE_SELECT_SPREADSHEET_INIT,
 } from '../actions/google';
 
 
 const initialState = {
     accessToken: null,
-    sheetUrl: '',
+    sheet: {},
     spreadsheetSelectedStatus: null,
 };
 
@@ -18,10 +18,15 @@ export default function googleState(state = initialState, action) {
                 ...state,
                 accessToken: action.accessToken,
             }
-        case GOOGLE_SELECTED_SHEET_URL:
+        case SET_GOOGLE_SELECTED_SHEET:
+            console.log({action})
             return {
                 ...state,
-                sheetUrl: action.sheetUrl,
+                sheet: {
+                    url: action.url,
+                    name: action.name,
+                    id: action.id,
+                },
             }
         case GOOGLE_SELECT_SPREADSHEET_INIT:
             return {

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import store from '../../redux/store';
-import { setGoogleAccessToken, setSelectSheetUrl } from '../../redux/actions/google';
+import { setGoogleAccessToken, setSelectedGoogleSheet } from '../../redux/actions/google';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
 console.log({googleClientId, googleDriveFilePickerScope, googleApiKey});
@@ -68,14 +68,18 @@ function createPicker() {
 }
 // A simple callback implementation.
 function pickerCallback(data) {
-    let url = 'nothing';
-    if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-        let doc = data[google.picker.Response.DOCUMENTS][0];
-        url = doc[google.picker.Document.URL];
+    if (data[google.picker.Response.ACTION] !== google.picker.Action.PICKED) {
+        return;
     }
-    if (url) {
-        store.dispatch(setSelectSheetUrl(url));
-    }
+    const doc = data[google.picker.Response.DOCUMENTS][0];
+    const url = doc[google.picker.Document.URL];
+    const name = doc[google.picker.Document.NAME];
+    const id = doc[google.picker.Document.ID];
+    
+    console.log({doc});
+    console.log({url});
+    console.log({data});
+    store.dispatch(setSelectedGoogleSheet(url, name, id));
 }
 
 function startGoogle() {
