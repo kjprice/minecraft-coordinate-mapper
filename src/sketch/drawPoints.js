@@ -9,7 +9,7 @@ function getCoordinates() {
         coordinateEndId,
         coordinates,
         averageZ
-    } = state.googleSheets;
+    } = state.google.sheet;
 
     if (!coordinates) {
         return null;

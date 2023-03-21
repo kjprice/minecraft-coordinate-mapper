@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import store from '../../redux/store';
-import { setGoogleAccessToken, setSelectedGoogleSheet } from '../../redux/actions/google';
+import { setGoogleAccessToken, setSelectedGoogleSheet, setSelectedGoogleSheetSheets, setSpreadsheetData } from '../../redux/actions/google';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
 console.log({googleClientId, googleDriveFilePickerScope, googleApiKey});
@@ -67,7 +67,7 @@ function createPicker() {
     return true;
 }
 // A simple callback implementation.
-function pickerCallback(data) {
+async function pickerCallback(data) {
     if (data[google.picker.Response.ACTION] !== google.picker.Action.PICKED) {
         return;
     }
@@ -80,6 +80,10 @@ function pickerCallback(data) {
     console.log({url});
     console.log({data});
     store.dispatch(setSelectedGoogleSheet(url, name, id));
+    const sheetNames = await loadAllGoogleSheets(id);
+    store.dispatch(setSelectedGoogleSheetSheets(sheetNames));
+    const spreadhseetData = await loadGoogleSheetData(id, sheetNames[0]);
+    store.dispatch(setSpreadsheetData(spreadhseetData, id));
 }
 
 function startGoogle() {
@@ -91,6 +95,26 @@ function startGoogle() {
     }
     gisLocalStarted = true;
     return gisLoaded();
+}
+
+export const loadAllGoogleSheets = async (spreadsheetId) => {
+    const response = await gapi.client.sheets.spreadsheets.get({
+        spreadsheetId,
+      });
+    
+    const sheetNames = response.result.sheets.map(sheet => sheet.properties.title);
+
+    return sheetNames;
+}
+
+const loadGoogleSheetData = async (spreadsheetId, sheetName) => {
+    const response = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: sheetName,
+      });
+
+    const sheetData = response.result.values;
+    return sheetData;
 }
 
 let googleInterval;
