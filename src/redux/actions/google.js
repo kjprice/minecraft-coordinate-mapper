@@ -1,7 +1,7 @@
 import store from '../store';
 
 export const GOOGLE_SET_ACCESS_TOKEN = 'GOOGLE_SET_ACCESS_TOKEN';
-export const GOOGLE_PICKER_MESSAGE = 'GOOGLE_PICKER_MESSAGE';
+export const GOOGLE_SELECTED_SHEET_URL = 'GOOGLE_SELECTED_SHEET_URL';
 export const GOOGLE_SELECT_SPREADSHEET_INIT = 'GOOGLE_SELECT_SPREADSHEET_INIT';
 
 export const setGoogleAccessToken = (accessToken) => ({
@@ -9,9 +9,9 @@ export const setGoogleAccessToken = (accessToken) => ({
     accessToken
 });
 
-export const setGooglePickerMessage = (pickerMessage) => ({
-    type: GOOGLE_PICKER_MESSAGE,
-    pickerMessage
+export const setSelectSheetUrl = (sheetUrl) => ({
+    type: GOOGLE_SELECTED_SHEET_URL,
+    sheetUrl
 });
 
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import store from '../../redux/store';
-import { setGoogleAccessToken, setGooglePickerMessage } from '../../redux/actions/google';
+import { setGoogleAccessToken, setSelectSheetUrl } from '../../redux/actions/google';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
 console.log({googleClientId, googleDriveFilePickerScope, googleApiKey});
@@ -73,10 +73,9 @@ function pickerCallback(data) {
         let doc = data[google.picker.Response.DOCUMENTS][0];
         url = doc[google.picker.Document.URL];
     }
-    let message = `You picked: ${url}`;
-    console.log({message});
-    setGooglePickerMessage(message);
-    // document.getElementById('result').innerText = message;
+    if (url) {
+        store.dispatch(setSelectSheetUrl(url));
+    }
 }
 
 function startGoogle() {
@@ -91,8 +90,7 @@ function startGoogle() {
 }
 
 let googleInterval;
-const startGoogleInterval = () => {
-    // debugger;
+export const startGoogleInterval = () => {
     googleInterval = setInterval(() => {
         if(startGoogle()) {
             clearInterval(googleInterval);
@@ -100,4 +98,3 @@ const startGoogleInterval = () => {
     }, 1000);
 }
 
-export { startGoogleInterval };

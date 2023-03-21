@@ -1,13 +1,13 @@
 import {
     GOOGLE_SET_ACCESS_TOKEN,
-    GOOGLE_PICKER_MESSAGE,
+    GOOGLE_SELECTED_SHEET_URL,
     GOOGLE_SELECT_SPREADSHEET_INIT,
 } from '../actions/google';
 
 
 const initialState = {
     accessToken: null,
-    googlePickerMessage: '',
+    sheetUrl: '',
     spreadsheetSelectedStatus: null,
 };
 
@@ -18,10 +18,10 @@ export default function googleState(state = initialState, action) {
                 ...state,
                 accessToken: action.accessToken,
             }
-        case GOOGLE_PICKER_MESSAGE:
+        case GOOGLE_SELECTED_SHEET_URL:
             return {
                 ...state,
-                googlePickerMessage: action.pickerMessage,
+                sheetUrl: action.sheetUrl,
             }
         case GOOGLE_SELECT_SPREADSHEET_INIT:
             return {

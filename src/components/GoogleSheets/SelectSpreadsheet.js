@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import { setGoogleSelectSpreasheetInit } from '../../redux/actions/google';
-// showPicker
 import { showPicker } from '../../components/Google/connectToGoogleDrive';
 
 
@@ -15,6 +14,14 @@ const mapStateToProp = (state) => {
   }
 }
 
+const buttonText = accessToken => {
+  if (accessToken) {
+    return 'Select Spreadsheet';
+  }
+
+  return 'Connect To Google And Select Spreadsheet';
+}
+
 function SelectSpreadsheet(props) {
   const { accessToken, setGoogleSelectSpreasheetInit } = props;
   function setSelectSpreadsheet() {
@@ -24,12 +31,8 @@ function SelectSpreadsheet(props) {
   if (!accessToken) {
     return null;
   }
-  return (<button type="button" onClick={setSelectSpreadsheet} style={{width: '700px'}}>Select Spreadsheet</button>);
+  return (<button type="button" onClick={setSelectSpreadsheet} style={{width: '700px'}}>{buttonText(accessToken)}</button>);
 }
-
-// const actions = {
-//   setEditSpreadsheetUrl
-// };
 
 const actions = {
   setGoogleSelectSpreasheetInit
