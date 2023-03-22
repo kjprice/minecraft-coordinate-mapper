@@ -34,7 +34,7 @@ const createCoordinatesState = coordinates => {
 
 const DEBUG = true;
   
-const initialState = {
+let initialState = {
     accessToken: null,
     sheet: {},
     spreadsheetSelectedStatus: null,
@@ -51,8 +51,12 @@ if (DEBUG) {
         selectedSheetName: 'Gabe And KJ'
     }
 }
+if (localStorage.google) {
+    initialState = JSON.parse(localStorage.google);
+    initialState.accessToken = null;
+}
 
-export default function googleState(state = initialState, action) {
+function getGoogleState(state, action) {
     switch(action.type) {
         case GOOGLE_SET_ACCESS_TOKEN:
             return {
@@ -95,4 +99,10 @@ export default function googleState(state = initialState, action) {
             default:
         return state;
     }
+}
+
+export default function googleState(state = initialState, action) {
+    const newState = getGoogleState(state, action);
+    localStorage.google = JSON.stringify(newState);
+    return newState;
 }
