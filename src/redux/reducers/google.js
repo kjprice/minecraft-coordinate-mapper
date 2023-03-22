@@ -93,7 +93,7 @@ function getGoogleState(state, action) {
                 sheet: {
                     ...state.sheet,
                     spreadsheetData: action.spreadsheetData,
-                    coordinates: coordinatesFromSpreadsheetValues(action.spreadsheetData)
+                    ...createCoordinatesState(coordinatesFromSpreadsheetValues(action.spreadsheetData)),
                 }
             }
             default:
