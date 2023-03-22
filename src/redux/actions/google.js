@@ -15,7 +15,7 @@ export const setSelectedGoogleSheet = (url, name, id) => ({
 });
 
 export const setSelectedGoogleSheetSheets = (sheetNames) => ({
-    type: SET_GOOGLE_SELECTED_SHEET,
+    type: SET_GOOGLE_SELECTED_SHEET_SHEETS,
     sheetNames
 });
 
