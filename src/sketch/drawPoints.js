@@ -79,6 +79,9 @@ class PointPositions {
         this.maxY = maxY;
         this.minZ = minZ;
         this.maxZ = maxZ;
+        this.mouseX = p.mouseX;
+        this.mouseY = p.mouseY;
+        // console.log(p.mouseX, p.mouseY);
     }
 
     getX(x) {
@@ -93,20 +96,54 @@ class PointPositions {
         return scaleForRange(z, this.minZ, this.maxZ, canvasTop, canvasBottom);
     }
 
+    isHovered(x, z) {
+        if (this.mouseX < x) {
+            return false;
+        }
+        if (this.mouseX > (x+ BOX_HEIGHT)) {
+            return false;
+        }
+        if (this.mouseY < z) {
+            return false;
+        }
+        if (this.mouseY > (z+ BOX_HEIGHT)) {
+            return false;
+        }
+
+        return true;
+    }
+
     get pointPositions() {
         return this.coordinates.map(coordinate => {
             const { x, y, z, isStarting, isEnding, averageZ } = coordinate;
+            const canvasPositionX = this.getX(x);
+            const canvasPositionZ = this.getZ(z);
             return {
-                x: this.getX(x),
+                x: canvasPositionX,
                 y,
-                z: this.getZ(z),
-                isStarting, isEnding, averageZ
+                z: canvasPositionZ,
+                coordinate,
+                isHovered: this.isHovered(canvasPositionX, canvasPositionZ)
             };
         })
     }
 
+    drawPointDescriptionInfo(coordinate) {
+        const {x, y, z, name} = coordinate;
+        this.p.fill('black');
+        this.p.textSize(20);
+        const pointDescription = `${name} \t ${x} \t ${y} \t ${z}`;
+        this.p.text(pointDescription, 20, 20);
+    }
+
     draw2dPoints() {
-        this.pointPositions.forEach(({x, y, z}) => {
+        this.pointPositions.forEach(({x, y, z, isHovered, coordinate}) => {
+            if (isHovered) {
+                this.drawPointDescriptionInfo(coordinate);
+                this.p.fill('red');
+            } else {
+                this.p.fill('blue');
+            }
             this.p.rect(x, z, BOX_HEIGHT, BOX_HEIGHT);
         });
 
