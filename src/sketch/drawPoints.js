@@ -5,6 +5,7 @@ import {
     CANVAS_WIDTH,
     CANVAS_HEIGHT,
     BOX_HEIGHT,
+    CANVAS_BORDER_BUFFER,
 } from '../settings/sketch';
 import store from '../redux/store';
 
@@ -42,22 +43,22 @@ function calculateMaxValues(coordinates) {
 
     coordinates.slice(1).forEach(coordinate => {
         const { x, y, z } = coordinate;
-        if (x > minX) {
+        if (x < minX) {
             minX = x;
         }
-        if (x < minX) {
+        if (x > maxX) {
             maxX = x;
         }
-        if (y > minY) {
+        if (y < minY) {
             minY = y;
         }
-        if (y < minY) {
+        if (y > maxY) {
             maxY = y;
         }
-        if (z > minZ) {
+        if (z < minZ) {
             minZ = z;
         }
-        if (z < minZ) {
+        if (z > maxZ) {
             maxZ = z;
         }
     });
@@ -81,14 +82,14 @@ class PointPositions {
     }
 
     getX(x) {
-        const canvasLeft = BOX_HEIGHT;
-        const canvasRight = CANVAS_WIDTH - (BOX_HEIGHT * 2);
+        const canvasLeft = CANVAS_BORDER_BUFFER;
+        const canvasRight = CANVAS_WIDTH - (CANVAS_BORDER_BUFFER * 2);
         return scaleForRange(x, this.minX, this.maxX, canvasLeft, canvasRight);
     }
 
     getZ(z) {
-        const canvasTop = BOX_HEIGHT;
-        const canvasBottom = CANVAS_HEIGHT - (BOX_HEIGHT * 2);
+        const canvasTop = CANVAS_BORDER_BUFFER;
+        const canvasBottom = CANVAS_HEIGHT - (CANVAS_BORDER_BUFFER * 2);
         return scaleForRange(z, this.minZ, this.maxZ, canvasTop, canvasBottom);
     }
 

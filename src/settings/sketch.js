@@ -1,5 +1,6 @@
 export const CANVAS_WIDTH = 1400;
 export const CANVAS_HEIGHT = 700;
+export const CANVAS_BORDER_BUFFER = 100;
 
 export const BOX_HEIGHT = 100;
 
