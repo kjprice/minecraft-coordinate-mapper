@@ -1,52 +1,10 @@
 /* eslint-disable no-undef */
-import * as Settings from '../settings/sketch';
-import drawPoints from './drawPoints';
-import resetCamera from './resetCamera';
+import sketch3d from './sketch3d';
+import sketch2d from './sketch2d';
 
-let fontBlack;
-function preload() {
-    fontBlack = loadFont('assets/Roboto-Black.ttf');
-}
 
-function setup() {
-    createCanvas(Settings.CANVAS_WIDTH, Settings.CANVAS_HEIGHT, WEBGL);
+window.p5_3d = new p5(sketch3d, '3dp5');
+window.p5_2d = new p5(sketch2d, '2dp5');
 
-    textFont(fontBlack);
-}
-
-function drawAltitudes() {
-    push();
-    translate(50, 0, 50);
-
-    // plane(100);
-    // background('white');
-    // fill(0, 0, 0, 50);
-    // fill(0, 150);
-    // tint(0, 0, 0, 50)
-    // noStroke();
-
-    // normalMaterial();
-    // push();
-    // rotateZ(frameCount * 0.01);
-    // console.log(frameCount * 0.01)
-    rotateX(HALF_PI);
-    // rotateX(frameCount * 0.01);
-    // rotateY(frameCount * 0.01);
-    plane(70);
-    pop();
-}
-
-function draw() {
-    background(200);
-    // normalMaterial();
-    resetCamera();
-    drawAltitudes();
-    drawPoints();
-
-    // Allow user to interact (drag and zoom)
-    orbitControl();
-}
-
-window.draw = draw;
-window.setup = setup;
-window.preload = preload;
+// window.p5_3d.canvas.style.display='none';
+document.getElementById('3dp5').style.display='none';

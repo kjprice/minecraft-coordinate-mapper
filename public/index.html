@@ -84,12 +84,38 @@
         });
         gisInited = true;
       }
+
+      const CANVAS_WIDTH = 1400;
+      const CANVAS_HEIGHT = 700;
+
+      const BOX_HEIGHT = 100;
+
+      const middleX = CANVAS_WIDTH / 2;
+      const middleY = CANVAS_HEIGHT / 2;
+      const pi = 3.141592653589793;
+      const halfPi = pi / 2;
+      const ROTATE = [-halfPi, 0, 0]
+      window.translationsPerAxis = [
+          CANVAS_WIDTH / 2,
+          // CANVAS_HEIGHT / 2,
+          0,
+          CANVAS_HEIGHT
+          // -1000 // TODO: This is hard coded, but should zoom in based on the coordinates of the points
+      ]
+      // window.translationsPerAxis = [
+      //     0,
+      //     0,
+      //     // -1000 // TODO: This is hard coded, but should zoom in based on the coordinates of the points
+      // ]
     </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <main></main>
+    <main>
+      <div id="3dp5"></div>
+      <div id="2dp5"></div>
+    </main>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
