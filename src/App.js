@@ -6,6 +6,7 @@ import SelectSpreadsheet from './components/GoogleSheets/SelectSpreadsheet'
 import ConnectGoogle from './components/GoogleSheets/ConnectGoogle'
 import GoogleSheets from './components/GoogleSheets'
 import SketchControls from './components/SketchControls'
+import SketchSettings from './components/SketchSettings'
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
       <PointsControls />
       <Stats />
       <SketchControls />
+      <SketchSettings />
     </div>
   );
 }

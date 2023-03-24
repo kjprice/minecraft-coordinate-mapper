@@ -5,32 +5,8 @@ import {
     GOOGLE_SELECT_SPREADSHEET_INIT,
     SET_SPREADSHEET_DATA,
 } from '../actions/google';
-import coordinatesFromSpreadsheetValues from '../../utils/coordinatesFromSpreadsheetValues';
 
 import defaultSheetValues from '../../settings/gabeAndKjSpreadsheetValues.json'
-// import coordinatesFromSpreadsheetValues from '../../utils/coordinatesFromSpreadsheetValues';
-
-const DEFAULT_COORDINATES = coordinatesFromSpreadsheetValues(defaultSheetValues);
-
-const createAverageZ = (coordinates) => {
-    const sum = coordinates.reduce((a, c) => a + getZfromCoordinate(c), 0);
-  
-    return sum / coordinates.length;
-}
-
-  
-const getZfromCoordinate = (point = {}) => {
-    return point.z || 0;
-}
-  
-const createCoordinatesState = coordinates => {
-    return {
-        coordinates,
-        coordinateStartId: coordinates[0].id,
-        coordinateEndId: coordinates[coordinates.length - 1].id,
-        averageZ: createAverageZ(coordinates), // TODO: Fix this
-    }
-}
 
 const DEBUG = true;
   
@@ -42,7 +18,6 @@ let initialState = {
 
 if (DEBUG) {
     initialState.sheet = {
-        ...createCoordinatesState(DEFAULT_COORDINATES),
         sheetNames: ['Gabe And KJ'],
         spreadsheetData: defaultSheetValues,
         url: 'https://docs.google.com/spreadsheets/d/1-Yx5E-JU70AJ-QcE6NzncnkEGdTixo68dgLnWxIDkS8/edit#gid=0',
@@ -93,7 +68,6 @@ function getGoogleState(state, action) {
                 sheet: {
                     ...state.sheet,
                     spreadsheetData: action.spreadsheetData,
-                    ...createCoordinatesState(coordinatesFromSpreadsheetValues(action.spreadsheetData)),
                 }
             }
             default:

@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import store from '../../redux/store';
 import { setGoogleAccessToken, setSelectedGoogleSheet, setSelectedGoogleSheetSheets, setSpreadsheetData } from '../../redux/actions/google';
+import { setCoordinatesFromSheet } from '../../redux/actions/sketch';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
 console.log({googleClientId, googleDriveFilePickerScope, googleApiKey});
@@ -82,8 +83,9 @@ async function pickerCallback(data) {
     store.dispatch(setSelectedGoogleSheet(url, name, id));
     const sheetNames = await loadAllGoogleSheets(id);
     store.dispatch(setSelectedGoogleSheetSheets(sheetNames));
-    const spreadhseetData = await loadGoogleSheetData(id, sheetNames[0]);
-    store.dispatch(setSpreadsheetData(spreadhseetData, id));
+    const spreadsheetData = await loadGoogleSheetData(id, sheetNames[0]);
+    store.dispatch(setSpreadsheetData(spreadsheetData, id));
+    store.dispatch(setCoordinatesFromSheet(spreadsheetData));
 }
 
 function startGoogle() {

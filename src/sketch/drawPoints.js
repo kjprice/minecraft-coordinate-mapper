@@ -16,7 +16,7 @@ function getCoordinates() {
         coordinateEndId,
         coordinates,
         averageZ
-    } = state.google.sheet;
+    } = state.sketch.coordinates;
 
     // const {dimensionType} = state.sketch;
     // console.log({dimensionType})
@@ -92,7 +92,7 @@ class PointPositions {
 
     getZ(z) {
         const canvasTop = CANVAS_BORDER_BUFFER;
-        const canvasBottom = CANVAS_HEIGHT - (CANVAS_BORDER_BUFFER * 2);
+        const canvasBottom = CANVAS_HEIGHT - (CANVAS_BORDER_BUFFER);
         return scaleForRange(z, this.minZ, this.maxZ, canvasTop, canvasBottom);
     }
 
