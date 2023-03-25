@@ -31,7 +31,6 @@ Using tutorial at https://developers.google.com/sheets/api/quickstart/js#prereqs
 
 TODO:
 
-- Show drop down for Individual Sheets
 - Allow user to login just one time, save their session
 - Allow user to paste in coordinates and select point name/type
     - User can then save point which will update google sheet
