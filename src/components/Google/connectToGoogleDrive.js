@@ -23,7 +23,10 @@ function gisLoaded() {
     gisLocalInited = true;
     authenticateGoogle();
 }
-export const showPicker = () => {
+export const showPicker = async () => {
+    if (!accessToken) {
+        await startGoogleInterval();
+    }
     const picker = new google.picker.PickerBuilder()
         // Only allow user to pick google sheets
         // https://developers.google.com/drive/picker/guides/overview
@@ -146,10 +149,16 @@ const loadGoogleSheetData = async (spreadsheetId, sheetName) => {
 
 let googleInterval;
 export const startGoogleInterval = () => {
-    googleInterval = setInterval(() => {
-        if(startGoogle()) {
-            clearInterval(googleInterval);
-        }
-    }, 1000);
+    if (googleInterval) {
+        return;
+    }
+    return new Promise((res, rej) => {
+        googleInterval = setInterval(() => {
+            if(startGoogle()) {
+                clearInterval(googleInterval);
+                res();
+            }
+        }, 1000);
+    });
 }
 
