@@ -31,17 +31,13 @@ Using tutorial at https://developers.google.com/sheets/api/quickstart/js#prereqs
 
 TODO:
 
-- Create a unique id for points
-- Draw the base (0) as a plane
-- Show altitude layers:
-    - 0 = bedrock
-    - 62 = sea level
-    - 127 = clouds
-- Color code boxes by "type"
-- Change zoom (translationsPerAxis[2]) based on the extent of points (try to show all of them concisely)
-- Instead of drop downs, show a table (react-virtualized), when hovering over row, highlight the point
-- Track what percent complete a location is
-- Allow to click on a point in the map
+- Show drop down for Individual Sheets
+- Allow user to login just one time, save their session
+- Allow user to paste in coordinates and select point name/type
+    - User can then save point which will update google sheet
+- Have a refresh button next to their google spreadsheet name, which will gather new data from the sheet
+- For 2d, show X/Y grid
+- On point hover, show popover
 
 Dream TODO:
 
