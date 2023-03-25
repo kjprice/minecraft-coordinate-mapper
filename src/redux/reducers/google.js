@@ -2,6 +2,7 @@ import {
     GOOGLE_SET_ACCESS_TOKEN,
     SET_GOOGLE_SELECTED_SHEET,
     SET_GOOGLE_SELECTED_SHEET_SHEETS,
+    SET_SELECT_SHEET_NAME,
     GOOGLE_SELECT_SPREADSHEET_INIT,
     SET_SPREADSHEET_DATA,
 } from '../actions/google';
@@ -55,6 +56,14 @@ function getGoogleState(state, action) {
                     ...state.sheet,
                     sheetNames: action.sheetNames,
                     selectedSheetName: action.sheetNames[0]
+                }
+            }
+        case SET_SELECT_SHEET_NAME:
+            return {
+                ...state,
+                sheet: {
+                    ...state.sheet,
+                    selectedSheetName: action.sheetName
                 }
             }
             case GOOGLE_SELECT_SPREADSHEET_INIT:

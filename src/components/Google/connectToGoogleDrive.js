@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import store from '../../redux/store';
-import { setGoogleAccessToken, setSelectedGoogleSheet, setSelectedGoogleSheetSheets, setSpreadsheetData } from '../../redux/actions/google';
+import { setGoogleAccessToken, setSelectedGoogleSheet, setSelectedGoogleSheetSheets, setSpreadsheetData, setSelectedSheetName } from '../../redux/actions/google';
 import { setCoordinatesFromSheet } from '../../redux/actions/sketch';
 import config from '../../config';
 const {googleClientId, googleDriveFilePickerScope, googleApiKey} = config;
@@ -21,7 +21,7 @@ function gisLoaded() {
         callback: '', // defined later
     });
     gisLocalInited = true;
-    return createPicker();
+    authenticateGoogle();
 }
 export const showPicker = () => {
     const picker = new google.picker.PickerBuilder()
@@ -37,35 +37,60 @@ export const showPicker = () => {
 }
 
 // Create and render a Google Picker object for selecting from Drive
-function createPicker() {
-    if (!gisLocalInited) {
-        return false;
-    }
-    // debugger;
-
-    // Request an access token
-    tokenClient.callback = async (response) => {
-        if (response.error !== undefined) {
-            throw (response);
+function authenticateGoogle() {
+    return new Promise((res, rej) => {
+        if (!gisLocalInited) {
+            res(false);
+            return;
         }
-        accessToken = response.access_token;
-        store.dispatch(setGoogleAccessToken(accessToken));
-        localStorage.googleAccessToken = accessToken;
-        // TODO: Move outside - make a button available to click at this time
-        // showPicker();
-    };
 
-    if (accessToken === null) {
-        // Prompt the user to select a Google Account and ask for consent to share their data
-        // when establishing a new session.
-        tokenClient.requestAccessToken({ prompt: 'consent' });
-    } else {
-        // Skip display of account chooser and consent dialog for an existing session.
-        tokenClient.requestAccessToken({ prompt: '' });
+        // Request an access token
+        tokenClient.callback = async (response) => {
+            if (response.error !== undefined) {
+                rej(response);
+                return;
+            }
+            accessToken = response.access_token;
+            store.dispatch(setGoogleAccessToken(accessToken));
+            res(true);
+        };
+
+        if (accessToken === null) {
+
+            // Prompt the user to select a Google Account and ask for consent to share their data
+            // when establishing a new session.
+            tokenClient.requestAccessToken({ prompt: 'consent' });
+        } else {
+            // Skip display of account chooser and consent dialog for an existing session.
+            tokenClient.requestAccessToken({ prompt: '' });
+        }
+    });
+}
+window.refreshToken = () => {
+    tokenClient.requestAccessToken({ prompt: 'none' });
+}
+
+export const loadAndSetSpreadsheetData = async (spreadsheetId, sheetName) => {
+    try {
+        const spreadsheetData = await loadGoogleSheetData(spreadsheetId, sheetName);
+        store.dispatch(setSpreadsheetData(spreadsheetData, spreadsheetId));
+        store.dispatch(setCoordinatesFromSheet(spreadsheetData));
+    } catch(e) {
+        if (e.status === 403) {
+            if (!gisLocalInited) {
+                gisLoaded();
+            }
+            await authenticateGoogle();
+            await loadAndSetSpreadsheetData(spreadsheetId, sheetName);
+            return;
+        }
+        throw(e);
     }
-    // debugger;
+}
 
-    return true;
+export const selectSheetByName = async (spreadsheetId, sheetName) => {
+    await loadAndSetSpreadsheetData(spreadsheetId, sheetName);
+    store.dispatch(setSelectedSheetName(sheetName));
 }
 // A simple callback implementation.
 async function pickerCallback(data) {
@@ -83,9 +108,7 @@ async function pickerCallback(data) {
     store.dispatch(setSelectedGoogleSheet(url, name, id));
     const sheetNames = await loadAllGoogleSheets(id);
     store.dispatch(setSelectedGoogleSheetSheets(sheetNames));
-    const spreadsheetData = await loadGoogleSheetData(id, sheetNames[0]);
-    store.dispatch(setSpreadsheetData(spreadsheetData, id));
-    store.dispatch(setCoordinatesFromSheet(spreadsheetData));
+    await loadAndSetSpreadsheetData(id, sheetNames[0]);
 }
 
 function startGoogle() {
@@ -96,7 +119,9 @@ function startGoogle() {
         return true;
     }
     gisLocalStarted = true;
-    return gisLoaded();
+    gisLoaded();
+
+    return true;
 }
 
 export const loadAllGoogleSheets = async (spreadsheetId) => {
