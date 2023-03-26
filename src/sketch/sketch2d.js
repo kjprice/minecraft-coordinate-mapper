@@ -33,7 +33,7 @@ const showGrid = (p, pointPositions) => {
     p.fill('white');
     const coordText = yPointPosition;
     p.textSize(14);
-    p.text(coordText, 5, y + 15);
+    p.text(coordText, 15, y + 15);
   }
 }
 
@@ -41,6 +41,7 @@ const showGrid = (p, pointPositions) => {
 const sketch2d = (p) => {
     p.setup = function() {
         p.createCanvas(Settings.CANVAS_WIDTH, Settings.CANVAS_HEIGHT);
+        p.rectMode(p.CENTER);
     }
 
 

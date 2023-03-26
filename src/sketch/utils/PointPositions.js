@@ -83,16 +83,17 @@ export default class PointPositions {
   }
 
   isHovered(x, z) {
-    if (this.mouseX < x) {
+    const halfBox = BOX_HEIGHT / 2;
+    if (this.mouseX < x - halfBox) {
       return false;
     }
-    if (this.mouseX > x + BOX_HEIGHT) {
+    if (this.mouseX > x + halfBox) {
       return false;
     }
-    if (this.mouseY < z) {
+    if (this.mouseY < z - halfBox) {
       return false;
     }
-    if (this.mouseY > z + BOX_HEIGHT) {
+    if (this.mouseY > z + halfBox) {
       return false;
     }
 
