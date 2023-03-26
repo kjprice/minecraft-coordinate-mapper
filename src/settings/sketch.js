@@ -7,6 +7,9 @@ export const BOX_HEIGHT = 10;
 export const middleX = CANVAS_WIDTH / 2;
 export const middleY = CANVAS_HEIGHT / 2;
 
+export const BACKGROUND_COLOR = 200;
+export const GRID_COLOR = 180;
+
 // export const translationsPerAxis = [
 //     CANVAS_WIDTH / 2,
 //     -CANVAS_HEIGHT / 2,

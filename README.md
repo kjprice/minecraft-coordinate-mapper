@@ -35,7 +35,6 @@ TODO:
 - Allow user to paste in coordinates and select point name/type
     - User can then save point which will update google sheet
 - Have a refresh button next to their google spreadsheet name, which will gather new data from the sheet
-- For 2d, show X/Y grid
 - On point hover, show popover
 
 Dream TODO:
