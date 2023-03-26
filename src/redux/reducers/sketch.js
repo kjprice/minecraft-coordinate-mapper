@@ -38,7 +38,7 @@ let initialState = {
 };
 
 if (localStorage.sketch) {
-  initialState = JSON.parse(localStorage.sketch);
+  initialState.coordinates = JSON.parse(localStorage.sketch).coordinates;
 }
 
 function getSketchState(state, action) {
