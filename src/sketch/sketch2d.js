@@ -60,8 +60,6 @@ const sketch2d = (p) => {
         showGrid(p, pointPositions);
         pointPositions.draw2dPoints();
 
-          
-        pointPositions.draw2dPoints();
         p.translate(1000, 100);
     }
 };
