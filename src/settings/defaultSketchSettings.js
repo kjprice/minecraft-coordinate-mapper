@@ -4,10 +4,10 @@ import { colorToHexCode as c } from '../utils/colorTools';
 
 const defaultSketchSettingsState = {
   iconSettingsByText: {
-    ...creatSketchIconSetting('tower', c('red'), 'square'),
-    ...creatSketchIconSetting('ship', c('purple'), 'square'),
-    ...creatSketchIconSetting('portal', c('yellow'), 'square'),
-    ...creatSketchIconSetting('city', c('green'), 'square'),
+    ...creatSketchIconSetting('city', c('purple'), 'circle'),
+    ...creatSketchIconSetting('tower', c('teal'), 'circle'),
+    ...creatSketchIconSetting('ship', c('green'), 'square'),
+    ...creatSketchIconSetting('portal', c('yellow'), 'triangle'),
   }
 };
 
