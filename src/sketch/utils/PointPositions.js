@@ -136,6 +136,17 @@ export default class PointPositions {
     return { color: "blue", shape: "square" };
   }
 
+  drawTriangle(x, y) {
+    const triangleSideLength = BOX_HEIGHT;
+    const diff = (triangleSideLength /2)
+    const leftPoint = [x - diff, y + diff];
+    const topPoint = [x, y - diff];
+    const rightPoint = [x + diff, y + diff];
+    const triangleDimensions = [...leftPoint, ...topPoint, ...rightPoint]
+
+    this.p.triangle(...triangleDimensions);
+  }
+
   draw2dPoints() {
     this.allPoints
       .forEach(({ x, y, z, coordinate, iconSettings }) => {
@@ -146,7 +157,17 @@ export default class PointPositions {
         } else {
           this.p.fill(color);
         }
-        this.p.rect(x, z, BOX_HEIGHT, BOX_HEIGHT);
+        switch(shape) {
+          case 'square':
+            this.p.rect(x, z, BOX_HEIGHT, BOX_HEIGHT);
+            break;
+          case 'triangle':
+            this.drawTriangle(x, z);
+            break;
+          // case 'circle':
+          default:
+            throw new Error(`unknown shape ${shape}`);
+          }
       });
   }
 }

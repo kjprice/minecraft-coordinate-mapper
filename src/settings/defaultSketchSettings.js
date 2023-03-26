@@ -7,6 +7,7 @@ const defaultSketchSettingsState = {
     ...creatSketchIconSetting('tower', c('red'), 'square'),
     ...creatSketchIconSetting('ship', c('purple'), 'square'),
     ...creatSketchIconSetting('portal', c('yellow'), 'square'),
+    ...creatSketchIconSetting('city', c('green'), 'square'),
   }
 };
 

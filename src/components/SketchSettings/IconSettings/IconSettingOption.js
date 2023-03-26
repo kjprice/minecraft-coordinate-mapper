@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import ColorPicker from "../../common/ColorPicker";
 
 import { setIconSettingValue } from "../../../redux/actions/sketch";
+import ShapeDropdown from "./ShapeDropdown";
 
 const IconSettingOption = props => {
   const {text, color, shape, onChange} = props;
@@ -24,6 +25,9 @@ const IconSettingOption = props => {
         </Form.Label>
         <Col sm={4}>
           <ColorPicker onChange={(e)=>onSettingChange('color', e.target.value)} color={color} />
+        </Col>
+        <Col sm={4}>
+          <ShapeDropdown shape={shape} onChange={(selectedShape) => {onSettingChange('shape', selectedShape)}} />
         </Col>
       </Form.Group>
     </Form>
