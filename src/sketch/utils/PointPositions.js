@@ -164,7 +164,9 @@ export default class PointPositions {
           case 'triangle':
             this.drawTriangle(x, z);
             break;
-          // case 'circle':
+          case 'circle':
+            this.p.circle(x, z, BOX_HEIGHT);
+            break;
           default:
             throw new Error(`unknown shape ${shape}`);
           }
