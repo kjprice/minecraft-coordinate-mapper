@@ -52,4 +52,7 @@ nvm install 16.18.0
 nvm use 16.18.0
 npm install
 npm start
+
+# Shorthand
+nvm use 16.18.0; SKIP_PREFLIGHT_CHECK=true npm start;
 ```
