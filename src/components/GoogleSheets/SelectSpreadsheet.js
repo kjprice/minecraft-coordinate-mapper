@@ -31,7 +31,7 @@ function SelectSpreadsheet(props) {
   if (!accessToken) {
     return null;
   }
-  return (<button type="button" onClick={setSelectSpreadsheet} style={{width: '700px'}}>{buttonText(accessToken)}</button>);
+  return (<button className='btn btn-primary' type="button" onClick={setSelectSpreadsheet}>{buttonText(accessToken)}</button>);
 }
 
 const actions = {

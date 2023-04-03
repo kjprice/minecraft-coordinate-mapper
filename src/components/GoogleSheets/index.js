@@ -30,20 +30,26 @@ const GoogleSheets = (props) => {
   }
   const { url, name, id } = sheet;
   return (
-    <div>
-      <div>
+    <div className="row">
+      <div className="col-sm-5">
         Google Spreadsheet: <a href={url}>{name}</a>
       </div>
-      <Form>
-        <Form.Group as={Row} className="mb-3" controlId="formSelectedSheetName">
-          <Form.Label column sm={2}>
-            Selected Sheet:
-          </Form.Label>
-          <Col sm={10}>
-            <SheetDropdown />
-          </Col>
-        </Form.Group>
-      </Form>
+      <div className="col-sm-5">
+        <Form>
+          <Form.Group
+            as={Row}
+            className="mb-3"
+            controlId="formSelectedSheetName"
+          >
+            <Form.Label column sm={5}>
+              Selected Sheet:
+            </Form.Label>
+            <Col sm={7}>
+              <SheetDropdown />
+            </Col>
+          </Form.Group>
+        </Form>
+      </div>
     </div>
   );
 };

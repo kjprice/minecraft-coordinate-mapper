@@ -39,6 +39,15 @@ export const showPicker = async () => {
     picker.setVisible(true);
 }
 
+
+const refreshToken = () => {
+    tokenClient.requestAccessToken({ prompt: 'none' });
+}
+
+let refreshTokenInterval = null;
+
+const fiftyFiveMinutes = 1000 * 60 * 55;
+
 // Create and render a Google Picker object for selecting from Drive
 function authenticateGoogle() {
     return new Promise((res, rej) => {
@@ -59,6 +68,9 @@ function authenticateGoogle() {
         };
 
         if (accessToken === null) {
+            if (!refreshTokenInterval) {
+                refreshTokenInterval = setInterval(refreshToken, fiftyFiveMinutes)
+            }
 
             // Prompt the user to select a Google Account and ask for consent to share their data
             // when establishing a new session.
@@ -68,9 +80,6 @@ function authenticateGoogle() {
             tokenClient.requestAccessToken({ prompt: '' });
         }
     });
-}
-window.refreshToken = () => {
-    tokenClient.requestAccessToken({ prompt: 'none' });
 }
 
 export const loadAndSetSpreadsheetData = async (spreadsheetId, sheetName) => {
