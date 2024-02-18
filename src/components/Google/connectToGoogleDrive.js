@@ -177,3 +177,20 @@ export const startGoogleInterval = () => {
     }, 1000);
   });
 };
+
+const delay = (delayMs = 1000) => {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      res();
+    }, delayMs);
+  });
+};
+
+export const loadDefaultSpreadsheet = async () => {
+  // https://docs.google.com/spreadsheets/d/1pyxZFQL8iQugVgOUwbBgQN2zSnMsz6Vw21YqIdPu5QQ/edit#gid=0
+  const DEFAULT_SPREADSHEET_ID = "1pyxZFQL8iQugVgOUwbBgQN2zSnMsz6Vw21YqIdPu5QQ";
+  await delay(1000);
+  const sheetNames = await loadAllGoogleSheets(DEFAULT_SPREADSHEET_ID);
+  store.dispatch(setSelectedGoogleSheetSheets(sheetNames));
+  await loadAndSetSpreadsheetData(DEFAULT_SPREADSHEET_ID, sheetNames[0]);
+};

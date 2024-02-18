@@ -7,8 +7,13 @@ import GoogleSheets from "./components/GoogleSheets";
 import SketchControls from "./components/SketchControls";
 import SketchSettings from "./components/SketchSettings";
 import RefreshSpreadsheet from "./components/GoogleSheets/RefreshSpreadsheet";
+import { useEffect } from "react";
+import { loadDefaultSpreadsheet } from "./components/Google/connectToGoogleDrive";
 
 function App() {
+  useEffect(() => {
+    loadDefaultSpreadsheet();
+  });
   return (
     <div className="App">
       <div className="row">
