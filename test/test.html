@@ -172,7 +172,7 @@
         });
     }
 
-    getSpreadsheetSheetNames().then((sheetNames) => console.log(sheetNames))
+    setTimeout(() => getSpreadsheetSheetNames().then((sheetNames) => console.log(sheetNames)), 1000)
 
     // setTimeout(listMajors, 1000)
   </script>

@@ -1,10 +1,7 @@
 <html>
 
 <head>
-  <script src="https://accounts.google.com/gsi/client" onload="initClient()" async defer></script>
-</head>
 
-<body>
   <script>
     var client;
     var access_token;
@@ -38,6 +35,10 @@
       xhr.send();
     }
   </script>
+  <script src="https://accounts.google.com/gsi/client" onload="initClient()" async defer></script>
+</head>
+
+<body>
   <h1>Google Identity Services Authorization Token model</h1>
   <button onclick="getToken();">Get access token</button> <br><br>
   <button onclick="listMajors();">Call Sheets API</button> <br><br>
